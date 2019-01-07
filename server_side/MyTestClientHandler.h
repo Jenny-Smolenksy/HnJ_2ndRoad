@@ -5,14 +5,14 @@
 using namespace server_side;
 
 
-template <class Type>
+template <class Problem, class Solution>
 class MyTestClientHandler : public ClientHandler {
 
-    Solver<Type> solver;
-    CacheManager<Type> cacheManager;
+    Solver<Problem, Solution> solver;
+    CacheManager<Problem, Solution> cacheManager;
 
 public:
-    MyTestClientHandler(Solver<Type> solverToSet, CacheManager<Type> cacheManagerToSet);
+    MyTestClientHandler(Solver<Problem, Solution> solverToSet, CacheManager<Problem, Solution> cacheManagerToSet);
 
     ~MyTestClientHandler();
 

@@ -1,12 +1,12 @@
 
-template <class Type>
+template <class Problem, class Solution>
 class CacheManager {
 
 public:
 
-    virtual bool isSolution(Type problem);
+    virtual bool isSolution(Problem problem);
 
-    virtual Type getSolution(Type problem);
+    virtual Solution getSolution(Problem problem);
 
-    virtual void saveSolution(Type problem, Type solution);
+    virtual void saveSolution(Problem problem, Solution solution);
 };

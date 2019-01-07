@@ -1,7 +1,7 @@
-template <class Type>
+template <class Problem, class Solution>
 class Solver {
 
 public:
 
-    virtual Type solve(Type problem);
+    virtual Solution solve(Problem problem);
 };

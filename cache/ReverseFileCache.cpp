@@ -1,11 +1,11 @@
 #include "ReverseFileCache.h"
 
-template <class Type>
-bool ReverseFileCache<Type>::isSolution(Type problem) {
+template <class Problem, class Solution>
+bool ReverseFileCache<Problem, Solution>::isSolution(Problem problem) {
     return false;
 }
 
-template <class Type>
-Type ReverseFileCache<Type>::getSolution(Type problem) {
+template <class Problem, class Solution>
+Solution ReverseFileCache<Problem, Solution>::getSolution(Problem problem) {
 
 }
