@@ -1,13 +1,15 @@
 #include "FileCacheManager.h"
+#include "string"
 
-template <class Problem, class Solution>
-class ReverseFileCache : FileCacheManager<Problem, Solution> {
+using namespace std;
 
+template<char *Problem, char *Soltion>
+class ReverseFileCache : FileCacheManager {
 
-    virtual bool isSolution(Problem problem);
+    virtual char *getSolution(char *problem);
 
-    virtual Solution getSolution(Problem problem);
-
-    virtual void saveSolution(Problem problem, Solution solution);
+    virtual void saveSolution(char *problem, char *solution);
 
 };
+
+
