@@ -1,12 +1,27 @@
 
-template <class Problem, class Solution>
+#include "string"
+#include "FileToucher.h"
+
+using namespace std;
+
 class CacheManager {
+
 
 public:
 
-    virtual bool isSolution(Problem problem);
+    virtual bool isSolution(string problem) {
 
-    virtual Solution getSolution(Problem problem);
+        try {
+            getSolution(problem);
+            return true;
+        }
+        catch (...) {
+            return false;
+        }
 
-    virtual void saveSolution(Problem problem, Solution solution);
+    }
+
+    virtual string getSolution(string problem) {}
+
+    virtual void saveSolution(string problem, string solution) {}
 };

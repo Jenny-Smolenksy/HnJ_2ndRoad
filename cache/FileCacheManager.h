@@ -1,11 +1,25 @@
 #include "CacheManager.h"
+#include "string"
 
-template <class Problem, class Solution>
-class FileCacheManager : public CacheManager<Problem, Solution> {
+using namespace std;
 
-    virtual bool isSolution(Problem problem);
+class FileCacheManager : public CacheManager {
+    string fileName;
 
-    virtual Solution getSolution(Problem problem);
+public:
+    FileCacheManager(string file) {
+        fileName = file;
+    }
 
-    virtual void saveSolution(Problem problem, Solution solution);
+    string getSolution(string problem) {
+        FileToucher *reader = FileToucher::getInstance();
+        string sol = reader->getByKey(fileName, problem);
+        return sol;
+    }
+
+    void saveSolution(string problem, string solution) {
+        FileToucher *writer = FileToucher::getInstance();
+        //write to reverse file in this mode  problem_solution
+        writer->writeToFile(fileName, solution, problem);
+    }
 };

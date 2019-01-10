@@ -6,33 +6,9 @@
 #include "FileToucher.h"
 #include "../Utils.h"
 
+
 #define DIVIDER '_'
-
-string FileToucher::getByKey(string fileName, string key) {
-    ifstream fin;
-    fin.open(fileName);
-    string line;
-    if (fin.is_open()) {
-        while (getline(fin, line)) {
-            if (line.find(key, 0) != string::npos) {
-                fin.close();
-                //found the key problem return its sol
-                return Utils::split(line, DIVIDER)[1];
-            }
-        }
-        fin.close();
-    }
-    throw "key does not exist in cache! check for existence first";
-}
-
-void FileToucher::writeToFile(string fileName, string SolFormat, string ProbFormat) {
-    ofstream eFile;
-    eFile.open(fileName, ios::out | ios::app | ios::ate);
-    if (!eFile.is_open())
-        throw "cant open file";
-    eFile << ProbFormat << DIVIDER << SolFormat << "\n";
-    eFile.close();
-}
+FileToucher *FileToucher::instance = nullptr;
 
 FileToucher *FileToucher::getInstance() {
     if (instance == nullptr) {
@@ -41,5 +17,48 @@ FileToucher *FileToucher::getInstance() {
     }
     return instance;
 }
+
+string FileToucher::getByKey(string fileName, string key) {
+    ifstream fin;
+    fin.open(fileName);
+    string line;
+    vector<string> splited;
+    if (fin.is_open()) {
+        while (getline(fin, line)) {
+            splited = Utils::split(line, DIVIDER);
+            if (isSame(splited[0], key)) {
+                fin.close();
+                //found the key problem return its sol
+                return splited[1];
+            }
+        }
+        fin.close();
+    }
+    throw "key does not exist in cache! check for existence first";
+}
+
+void FileToucher::writeToFile(string fileName, string SolFormat, string ProbFormat) {
+//TODO unick id ot find the whole problem ?
+    ofstream eFile;
+    eFile.open(fileName, ios::out | ios::app | ios::ate);
+    if (!eFile.is_open())
+        throw "cant open file";
+    eFile << ProbFormat << DIVIDER << SolFormat << "\n";
+    eFile.close();
+}
+
+bool FileToucher::isSame(string key, string line) {
+    if (key.length() != line.length()) {
+        return false;
+    }
+    for (int i = 0; i < line.length(); i++) {
+        if (key[i] != line[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 
 

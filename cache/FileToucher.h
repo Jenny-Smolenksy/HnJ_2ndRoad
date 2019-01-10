@@ -11,13 +11,17 @@ using namespace std;
 
 class FileToucher {
     static FileToucher *instance;
+
     FileToucher() = default;
+
 public:
     static FileToucher *getInstance();
 
     string getByKey(string fileName, string key);
 
-    void writeToFile(string fileName, string SolFormat,string ProbFormat);
+    void writeToFile(string fileName, string SolFormat, string ProbFormat);
+
+    bool isSame(string key,string line);
 
 };
 
