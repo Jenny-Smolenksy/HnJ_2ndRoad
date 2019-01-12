@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class StringRevrser : public Solver<string, string> {
+class StringReverser : public Solver<string, string> {
 public:
     string solve(string p) override {
         string result;

@@ -1,4 +1,7 @@
 
+#ifndef HNJ_2NDROAD_CACHMANAGER_H
+#define HNJ_2NDROAD_CACHMANAGER_H
+
 #include "string"
 #include "FileToucher.h"
 
@@ -25,3 +28,5 @@ public:
 
     virtual void saveSolution(string problem, string solution) {}
 };
+
+#endif

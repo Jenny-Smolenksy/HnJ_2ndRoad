@@ -1,5 +1,10 @@
 #include <iosfwd>
 
+
+#ifndef HNJ_2NDROAD_CLIENTHANDLER_H
+#define HNJ_2NDROAD_CLIENTHANDLER_H
+
+
 using namespace std;
 
 namespace server_side {
@@ -9,6 +14,8 @@ namespace server_side {
 
     public:
 
-        virtual void handleClient(std::istream inputStream, std::ostream outputStream);
+        virtual void handleClient(int clientSocket) = 0;
     };
 }
+
+#endif //HNJ_2NDROAD_CLIENTHANDLER_H

@@ -1,9 +1,19 @@
-#include "Server.h"
+#include "AServer.h"
 
 using namespace server_side;
 
-class MySerialServer : public Server {
+namespace server_side {
 
-    virtual void open(int port, ClientHandler clientHandler);
+    class MySerialServer : public AServer {
 
-};
+    public:
+
+        virtual void listenToClient(int socketId);
+
+        virtual void serialListen();
+
+        virtual void open(int port, ClientHandler* clientHandler);
+
+        ~MySerialServer();
+    };
+}

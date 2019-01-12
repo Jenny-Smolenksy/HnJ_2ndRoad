@@ -1,13 +1,21 @@
+#ifndef HNJ_2NDROAD_SERVER_H
+#define HNJ_2NDROAD_SERVER_H
+
+
 #include "ClientHandler.h"
 
 namespace server_side {
 
-
     class Server {
 
-        virtual void open(int port, ClientHandler clientHandler);
+    public:
 
-        virtual void stop();
+        virtual void stop() = 0;
+
+        virtual void open(int port, ClientHandler* clientHandler) = 0;
+
     };
 
 }
+
+#endif
