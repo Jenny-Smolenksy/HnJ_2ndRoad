@@ -28,7 +28,7 @@
             Solver<string, string>* solver = new StringReverser();
 
             ClientHandler *clientHandler =
-                    new MyClientHandler<string, string>(solver, cacheManager);
+                    new MyTestClientHandler<string, string>(solver, cacheManager);
             Server *server;
 
             try {

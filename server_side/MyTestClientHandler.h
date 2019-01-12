@@ -42,7 +42,7 @@ namespace server_side {
 
 
                 //empty packet - lost connection
-                if (n < ZERO){
+                if (n <= ZERO){
                     return;
                 }
                 cout << "message from client: " << buffer;
