@@ -1,14 +1,27 @@
 //
-// Created by hilla on 1/13/19.
+// Created by jenny on 1/13/19.
 //
 
-#ifndef HNJ_2NDROAD_MATRIX_H
-#define HNJ_2NDROAD_MATRIX_H
+#ifndef HNJ_2NDROAD_MATRUX_H
+#define HNJ_2NDROAD_MATRUX_H
+
+#include "ISearchable.h"
+#include "MatrixSearchProblem.h"
+
+struct POINT {
+    int x;
+    int y;
+};
 
 
-class Matrix {
+template <class Type>
+class Matrix : public ISearchable<Type, POINT> {
+
+public:
+
+    virtual Type get(POINT searchFor) {}
 
 };
 
 
-#endif //HNJ_2NDROAD_MATRIX_H
+#endif //HNJ_2NDROAD_MATRUX_H

@@ -4,14 +4,15 @@
 
 #include "Matrix.h"
 
+struct START_END_POINT {
+    POINT start;
+    POINT end;
+};
 template<class Type>
-class MatrixSearchProblem {
-
+class MatrixSearchProblem  {
 
     Matrix<Type> matrix;
-    int startRow;
-    int endRow;
-    int startColumn;
-    int endColumn;
+    START_END_POINT startEndPoint;
+
 };
 #endif //HNJ_2NDROAD_MATRIXSEARCHPROBLEM_H
