@@ -14,6 +14,8 @@ class Utils {
 public:
     static vector<string> split(string info,char c);
 
+    static vector<string> splitbyEndl(string info);
+
 };
 
 

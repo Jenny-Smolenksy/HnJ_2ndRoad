@@ -15,3 +15,20 @@ vector<string> Utils::split(string info, char c) {
     }
     return allparts;
 }
+
+vector<string> Utils::splitbyEndl(string info) {
+    vector<string> strings;
+    string::size_type pos = 0;
+    string::size_type prev = 0;
+    while ((pos = info.find("\n", prev)) != std::string::npos) {
+        strings.push_back(info.substr(prev, pos - prev));
+        prev = pos + 1;
+    }
+
+    // To get the last substring (or only, if delimiter is not found)
+    strings.push_back(info.substr(prev));
+    if (strings.back().empty()) {
+        strings.pop_back();
+    }
+    return strings;
+}

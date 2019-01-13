@@ -6,10 +6,22 @@
 #include "vector"
 #include "../Utils.h"
 
-
-struct POINT {
+#define COMMA ","
+#define ENDLINE "|"
+class POINT {
+public:
     int x;
     int y;
+
+    string pointToString() {
+        string res;
+        res += to_string(x);
+        res += COMMA;
+        res += to_string(y);
+        return res;
+    }
+
+
 };
 
 
@@ -48,6 +60,17 @@ public:
         return matrix[searchFor.y][searchFor.x];
     }
 
+    virtual string matToString() {
+        string result;
+        for (vector<int> s:matrix) {
+            for (int c: s) {
+                result += to_string(c);
+                result += COMMA;
+            }
+            result += ENDLINE;
+        }
+        return result;
+    }
 
 
 };

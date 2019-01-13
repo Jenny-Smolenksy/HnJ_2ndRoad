@@ -57,7 +57,10 @@ namespace server_side {
             /* If connection is established then start communicating */
             while (true) {
                 try {
-                    getSingleSearchRequest(socketId);
+                    MatrixSearchProblem m = getSingleSearchRequest(socketId);
+                    //try write down a problem
+                    cacheManager->saveSolution(m.problemToString(), "good");
+                    //     string result =solver->solve(m);
 
                     //TODO search in cache
                     //TODO search in solver
@@ -68,7 +71,7 @@ namespace server_side {
             }
         }
 
-        void getSingleSearchRequest(int socketId) {
+        MatrixSearchProblem getSingleSearchRequest(int socketId) {
             //get whole problem
             vector<string> request = getRequest(socketId);
 
@@ -87,12 +90,14 @@ namespace server_side {
             //calculate matrix
             Matrix mat = getMatrix(request);
 
-            cout << "dst value is:" << endl;
-            cout << mat.get(dst) << endl;
+            //test
+            /* cout << "dst value is:" << endl;
+             cout << mat.get(dst) << endl;
 
-            cout << "src value is:" << endl;
-            cout << mat.get(src) << endl;
+             cout << "src value is:" << endl;
+             cout << mat.get(src) << endl;*/
 
+            return MatrixSearchProblem(mat, src, dst);
 
         }
 
@@ -102,27 +107,19 @@ namespace server_side {
             char *current = buffer;
             vector<string> request;
             //read matrix data until the end massage
-            /*  while (!isEndRequest) {
-                   getSingleMessage(socketId, &current);
+            while (!isEndRequest) {
+                getSingleMessage(socketId, &current);
 
-                   vector<string> splitedByEnd = Utils::split(buffer, '/n');
+                vector<string> splitedByEnd = Utils::splitbyEndl(buffer);
 
-                   for (const string &line:splitedByEnd) {
-                       if (line == END_MATRIX) {
-                           isEndRequest = true;
-                           break;
-                       }
-                       request.push_back(line);
-                       //mat.addRow(line);
-                   }
-
-              }*/
-            while (true) {
-                string line = readLine(socketId);
-                if (line == END_MATRIX) {
-                    break;
+                for (const string &line:splitedByEnd) {
+                    if (line == END_MATRIX) {
+                        isEndRequest = true;
+                        break;
+                    }
+                    request.push_back(line);
                 }
-                request.push_back(line);
+
             }
             cout << "got whole request " << endl;
             return request;
@@ -146,32 +143,6 @@ namespace server_side {
             }
             cout << "matrix inserted: " << endl;
             return mat;
-        }
-
-        string readLine(int socketId) {
-
-            string dataStr;
-            bool finishLine = false;
-
-            while (!finishLine) {
-                char buf[1];
-                int numBytesRead = static_cast<int>(recv(socketId, buf, sizeof(buf), 0));
-                if (numBytesRead > ZERO) {
-                    char c = buf[ZERO];
-                    if (c == '\n') {
-                        if (dataStr.length() > ZERO) {
-                            //the all line readed, end while
-                            finishLine = true;
-                        }
-                    } else dataStr += c;
-                } else {
-                    //empty packet - lost connection
-                    throw "client disconnected";
-                }
-
-            }
-
-            return dataStr;
         }
 
 
