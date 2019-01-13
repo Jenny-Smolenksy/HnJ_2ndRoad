@@ -5,8 +5,12 @@
 #ifndef HNJ_2NDROAD_ISEARCHABLE_H
 #define HNJ_2NDROAD_ISEARCHABLE_H
 
-//interface
+#include <termio.h>
+
+template <class Value, class SearchType>
 class ISearchable {
+
+    virtual Value get(SearchType searchFor) = 0;
 
 };
 

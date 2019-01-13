@@ -5,23 +5,21 @@
 #ifndef HNJ_2NDROAD_MATRUX_H
 #define HNJ_2NDROAD_MATRUX_H
 
+#include "ISearchable.h"
+#include "MatrixSearchProblem.h"
+
+struct POINT {
+    int x;
+    int y;
+};
+
+
 template <class Type>
-class Matrix {
+class Matrix : public ISearchable<Type, POINT> {
 
 public:
 
-    //enum DIRECTION {UP, DOWN, LEFT, RIGHT};
-    //Type value;
-    /*
-    struct Node<Type> {
-        Type value;
-        Node<Type>* parent;
-        Type pathValue;
-        DIRECTION direction;
-    };
-     */
-
-    Type* getValue(int row, int column) {}
+    virtual Type get(POINT searchFor) {}
 
 };
 
