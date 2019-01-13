@@ -8,13 +8,14 @@
 #include "../problem_solve/Solver.h"
 #include "ISearchable.h"
 #include "ISearcher.h"
+#include "Matrix.h"
+#include "MatrixSearchProblem.h"
 
-template <class Problem, class Solution>
-class SolverSearcher : public Solver<Problem, Solution> {
+template <class Type, class Solution>
+class SolverSearcher : public Solver<MatrixSearchProblem<Type>, Solution> {
 
     ISearchable searchable;
     ISearcher searcher;
-
 
 };
 

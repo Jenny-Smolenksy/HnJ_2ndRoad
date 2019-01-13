@@ -7,7 +7,7 @@
 #include "../problem_solve/Solver.h"
 #include "../cache/CacheManager.h"
 #include "AServer.h"
-
+#include "../search/MatrixSearchProblem.h"
 #define END_MATRIX_WITH_BREAK "end\n"
 #define END_MATRIX "end"
 
@@ -77,6 +77,7 @@ namespace server_side {
 
 
                getSingleMessage(socketId, &current);
+               ///
 
                if (strcmp(buffer, END_MATRIX) == 0
                     || strcmp(buffer, END_MATRIX_WITH_BREAK) == 0) {
