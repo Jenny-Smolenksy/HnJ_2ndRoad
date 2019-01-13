@@ -7,8 +7,11 @@
 
 #include "ISearcher.h"
 
-//abstract od i searcher contains all relevant to all searchers
-class Searcher : public ISearcher < {
+
+template <class Problem, class Solution, class Value, class SearchType>
+class Searcher : public ISearcher<Problem, Solution, Value, SearchType>{
+
+    Solution search(ISearchable<Value, SearchType> , Problem problem);
 
 };
 
