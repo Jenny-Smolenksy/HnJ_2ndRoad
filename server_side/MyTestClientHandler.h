@@ -63,24 +63,25 @@ namespace server_side {
 
         virtual void handleMessage(char *inputStream, char **outputStream) {
             //if problem not string convert it here
-          /*  string prob = inputStream;
-            if (!prob.empty() && prob[prob.length() - 1] == '\n') {
-                prob.erase(prob.length() - 1);
-            }*/
-            Problem problem = inputStream;
-            Solution result;
-            if (this->cacheManager->isSolution(inputStream)) {
-                result = this->cacheManager->getSolution(inputStream);
-                cout << "found on cache";
-            } else {
-                result = this->solver->solve(inputStream);
-                this->cacheManager->saveSolution(inputStream, result);
-                cout << "solver job";
-            }
+            string prob = inputStream;
+              if (!prob.empty() && prob[prob.length() - 1] == '\n') {
+                  prob.erase(prob.length() - 1);
+              }
+              Problem problem = inputStream;
+              Solution result;
+              if (this->cacheManager->isSolution(prob)) {
+                  result = this->cacheManager->getSolution(prob);
+                  cout << "found on cache";
+              } else {
+                  result = this->solver->solve(prob);
+                  this->cacheManager->saveSolution(prob, result);
+                  cout << "solver job";
+              }
 
-            string s = result;
-            //if solution not string convert it here to string
-            strcpy(*outputStream, s.c_str());
+              string s = result;
+              //if solution not string convert it here to string
+              strcpy(*outputStream, s.c_str());
+
         }
 
         ~MyTestClientHandler() {

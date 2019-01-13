@@ -24,7 +24,7 @@ string FileToucher::getByKey(string fileName, string key) {
     string line;
     vector<string> splited;
     if (fin.is_open()) {
-        while (getline(fin, line)) {
+        while (getline(fin, line)&& !line.empty()) {
             splited = Utils::split(line, DIVIDER);
             if (isSame(splited[0], key)) {
                 fin.close();

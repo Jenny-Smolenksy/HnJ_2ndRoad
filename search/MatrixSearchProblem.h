@@ -11,7 +11,7 @@ struct START_END_POINT {
 template<class Type>
 class MatrixSearchProblem  {
 
-    Matrix<Type> matrix;
+    Matrix matrix;
     START_END_POINT startEndPoint;
 
 };

@@ -20,7 +20,7 @@
                 throw "no port recived for opening server";
             }
 
-            int portNumber = std::atoi(argv[1]);
+            int portNumber = atoi(argv[1]);
 
 
             CacheManager *cacheManager = new FileCacheManager("reverse");
@@ -28,8 +28,7 @@
             string problem;
             Solver<string, string>* solver = new StringReverser();
 
-            ClientHandler *clientHandler =
-                    new MyTestClientHandler<string, string>(solver, cacheManager);
+            ClientHandler *clientHandler = new MyClientHandler<string, string>(solver, cacheManager);
             Server *server;
 
             try {
