@@ -7,7 +7,7 @@
 #include "../Utils.h"
 
 
-#define DIVIDER '_'
+#define DIVIDER '$'
 FileToucher *FileToucher::instance = nullptr;
 
 FileToucher *FileToucher::getInstance() {

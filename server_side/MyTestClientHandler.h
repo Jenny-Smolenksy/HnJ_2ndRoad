@@ -11,15 +11,15 @@ namespace server_side {
     template<class Problem, class Solution>
     class MyTestClientHandler : public ClientHandler {
 
-        Solver<Problem, Solution>* solver;
-        CacheManager* cacheManager;
+        Solver<Problem, Solution> *solver;
+        CacheManager *cacheManager;
 
 
     public:
-        MyTestClientHandler(Solver<Problem, Solution>* solverToSet,
-                            CacheManager* cacheManagerToSet) {
-           this->solver = solverToSet;
-           this->cacheManager = cacheManagerToSet;
+        MyTestClientHandler(Solver<Problem, Solution> *solverToSet,
+                            CacheManager *cacheManagerToSet) {
+            this->solver = solverToSet;
+            this->cacheManager = cacheManagerToSet;
         }
 
         virtual void handleClient(int socketId) {
@@ -28,21 +28,21 @@ namespace server_side {
             char *responsePtr = response;
             char *bufferPtr = buffer;
 
-            int  n;
-            if(socketId == -1) {
+            int n;
+            if (socketId == -1) {
                 return; //nothing to listen to
             }
 
             /* If connection is established then start communicating */
-            while(true) {
+            while (true) {
 
                 bzero(buffer, BUFFER_SIZE);
                 //read bytes
-                n = (int)read(socketId, buffer, (BUFFER_SIZE - sizeof(char)));
+                n = (int) read(socketId, buffer, (BUFFER_SIZE - sizeof(char)));
 
 
                 //empty packet - lost connection
-                if (n <= ZERO){
+                if (n <= ZERO) {
                     return;
                 }
                 cout << "message from client: " << buffer;
@@ -51,7 +51,7 @@ namespace server_side {
 
                 int resultCode;
                 size_t len = strlen(response);
-                resultCode = (int)send(socketId, response, len, 0);
+                resultCode = (int) send(socketId, response, len, 0);
 
                 //check message sent
                 if (resultCode < ZERO) {
@@ -61,12 +61,14 @@ namespace server_side {
         }
 
 
-        virtual void handleMessage(char* inputStream, char** outputStream) {
+        virtual void handleMessage(char *inputStream, char **outputStream) {
             //if problem not string convert it here
-
+          /*  string prob = inputStream;
+            if (!prob.empty() && prob[prob.length() - 1] == '\n') {
+                prob.erase(prob.length() - 1);
+            }*/
             Problem problem = inputStream;
             Solution result;
-
             if (this->cacheManager->isSolution(inputStream)) {
                 result = this->cacheManager->getSolution(inputStream);
                 cout << "found on cache";
