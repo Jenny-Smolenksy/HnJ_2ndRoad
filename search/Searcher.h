@@ -10,7 +10,7 @@
 
 template <class Problem, class Solution, class Value, class SearchType>
 class Searcher : public ISearcher<Problem, Solution, Value, SearchType>{
-    
+
     Solution search(ISearchable<Value, SearchType> , Problem problem);
 
 };
