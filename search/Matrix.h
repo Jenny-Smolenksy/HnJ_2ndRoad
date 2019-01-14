@@ -10,7 +10,7 @@
 #define ENDLINE "|"
 
 
-class Matrix : public ISearchable<SearchNode<int>, POINT> {
+class Matrix : public ISearchable<int, POINT> {
     vector<vector<SearchNode<int>>> matrix;
     int colNum;
 
@@ -47,7 +47,7 @@ public:
     }
 
     virtual vector<SearchNode<int> *> *getNeighbours(SearchNode<int> *searchFor) {
-        
+        return searchFor->getFriends();
 
     }
 
@@ -56,8 +56,21 @@ public:
         nodeMatrix.value = x;
         nodeMatrix.cameFromFirection = UP;
         nodeMatrix.parent = NULL;
+        nodeMatrix.up = nullptr;
+        nodeMatrix.left = nullptr;
+        nodeMatrix.right = nullptr;
+        nodeMatrix.down = nullptr;
         return nodeMatrix;
 
+    }
+
+    void assignFriends() {
+        POINT p;
+        p.x = 0;
+        p.y = 0;
+        for (vector<SearchNode<int>> v: matrix){
+            
+        }
     }
 
     virtual string matToString() {

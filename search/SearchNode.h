@@ -7,6 +7,7 @@
 #define COMMA ","
 
 #include <string>
+#include "vector"
 
 using namespace std;
 enum DIRECTION {
@@ -19,7 +20,22 @@ public:
     Type *value;
     double cost;
     SearchNode *parent;
-    DIRECTION cameFromFirection;;
+    SearchNode *up;
+    SearchNode *down;
+    SearchNode *right;
+    SearchNode *left;
+    DIRECTION cameFromFirection;
+
+    vector<SearchNode<Type> *> *getFriends() {
+        auto *friends = new vector<SearchNode<Type> *>();
+        friends->insert(up);
+        friends->insert(down);
+        friends->insert(right);
+        friends->insert(left);
+        return friends;
+
+    }
+
 };
 
 class POINT {

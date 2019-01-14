@@ -9,13 +9,13 @@
 #include <vector>
 #include "SearchNode.h"
 
-template<class Value, class SearchType>
+template<class Type, class SearchType>
 class ISearchable {
 public:
-    virtual Value *get(SearchType searchFor) = 0;
+    virtual SearchNode<Type> *get(SearchType searchFor) = 0;
 
 
-    virtual vector <Value*> *getNeighbours(Value* searchFor) = 0;
+    virtual vector <SearchNode<Type*>> *getNeighbours(SearchNode<Type*> searchFor) = 0;
 
 };
 
