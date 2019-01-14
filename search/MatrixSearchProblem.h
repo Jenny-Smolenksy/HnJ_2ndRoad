@@ -6,7 +6,7 @@
 
 #include "Matrix.h"
 
-#define DIVIDER "$"
+#define DIVIDER "*"
 
 struct START_END_POINT {
     POINT start;
