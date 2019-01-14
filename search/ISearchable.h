@@ -13,9 +13,9 @@ class ISearchable {
 
     virtual Value* get(SearchType searchFor) = 0;
 
-    virtual SearchNode<Value>* getNode(SearchType searchFor);
+    virtual void getNode(SearchType searchFor, SearchNode<Value>* searchNode);
 
-    virtual SearchNode<Value>** getNeighbours(SearchType searchFor);
+    virtual void getNeighbours(SearchType searchFor, SearchNode<Value>** neighbours);
 
 };
 

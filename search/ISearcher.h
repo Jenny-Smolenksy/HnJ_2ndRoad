@@ -10,7 +10,7 @@
 template <class Problem, class Solution, class Value, class SearchType>
 class ISearcher {
 
-    virtual Solution search(ISearchable<Value, SearchType> , Problem problem) = 0;
+    virtual Solution search(ISearchable<Value, SearchType> searchable, Problem problem) = 0;
 
 };
 

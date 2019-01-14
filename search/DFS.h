@@ -5,12 +5,16 @@
 #ifndef HNJ_2NDROAD_DFS_H
 #define HNJ_2NDROAD_DFS_H
 
+#include <queue>
 #include "Searcher.h"
 
 template <class Problem, class Solution, class Value, class SearchType>
 class DFS : public Searcher <Problem, Solution, Value, SearchType>{
 
     virtual Solution search(ISearchable<Value, SearchType> , Problem problem) {
+
+        std::queue<SearchNode<Value>> queue;
+
 
         //problem of dfs dtart_end point
         //start point

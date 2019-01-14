@@ -5,6 +5,8 @@
 #ifndef HNJ_2NDROAD_STATE_H
 #define HNJ_2NDROAD_STATE_H
 
+#include "Matrix.h"
+
 template <class Type>
 class SearchNode {
 
@@ -19,6 +21,7 @@ template <class Type>
 class SearchNodeMatrix : public SearchNode<Type> {
 
     DIRECTION cameFromFirection;
+    POINT location;
 
 };
 
