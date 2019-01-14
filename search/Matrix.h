@@ -60,6 +60,10 @@ public:
         return &matrix[searchFor.y][searchFor.x];
     }
 
+    virtual SearchNode<int >* getNode(POINT searchFor){}
+
+    virtual SearchNode<int >** getNeighbours(POINT searchFor){}
+
     virtual string matToString() {
         string result;
         for (vector<int> s:matrix) {
