@@ -5,7 +5,6 @@
 #ifndef HNJ_2NDROAD_STATE_H
 #define HNJ_2NDROAD_STATE_H
 
-#include "Matrix.h"
 
 template <class Type>
 class SearchNode {
@@ -13,6 +12,7 @@ class SearchNode {
     Type* value;
     double cost;
     Type* cameFrom;
+    bool discovered = false;
 };
 
 enum DIRECTION { UP, DOWN, RIGHT, LEFT};
@@ -21,7 +21,6 @@ template <class Type>
 class SearchNodeMatrix : public SearchNode<Type> {
 
     DIRECTION cameFromFirection;
-    POINT location;
 
 };
 

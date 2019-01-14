@@ -6,14 +6,28 @@
 #define HNJ_2NDROAD_DFS_H
 
 #include <queue>
+#include <stack>
 #include "Searcher.h"
+#include "MatrixSearchProblem.h"
 
-template <class Problem, class Solution, class Value, class SearchType>
-class DFS : public Searcher <Problem, Solution, Value, SearchType>{
+template <class Type, class SearchType, class Solution>
+class DFS : public Searcher <Type, SearchType, Solution>{
 
-    virtual Solution search(ISearchable<Value, SearchType> , Problem problem) {
+    virtual Solution search(ISearchable<Type, SearchType>* searchable,
+                            SearchNode<Type>* start, SearchNode<Type>* end) {
 
-        std::queue<SearchNode<Value>> queue;
+        std::stack<SearchNode<Type>> stack;
+        stack.push(&start);
+        SearchNode<Type>* current;
+
+        while(!stack.empty()) {
+            current = stack.pop();
+            if(!current->discovered) {
+                current->discovered = true;
+
+
+            }
+        }
 
 
         //problem of dfs dtart_end point

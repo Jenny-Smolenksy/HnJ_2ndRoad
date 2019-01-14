@@ -25,6 +25,18 @@ public:
         startEndPoint.endp = dst;
     }
 
+    Matrix getMatrix() {
+        return matrix;
+    }
+
+    POINT getStartPoint() {
+        return startEndPoint.start;
+    }
+
+    POINT getEndPoint() {
+        return startEndPoint.endp;
+    }
+
     /**
      * string down the problem:
      * matrix$startpoint$end point

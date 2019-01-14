@@ -7,10 +7,12 @@
 
 #include "ISearchable.h"
 
-template <class Problem, class Solution, class Value, class SearchType>
+template <class Type, class SearchType, class Solution>
 class ISearcher {
 
-    virtual Solution search(ISearchable<Value, SearchType> searchable, Problem problem) = 0;
+public:
+    virtual Solution search(ISearchable<Type, SearchType>* searchable,
+            SearchNode<Type>* start, SearchNode<Type>* end) = 0;
 
 };
 

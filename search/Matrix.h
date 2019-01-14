@@ -1,6 +1,4 @@
 
-
-
 #include "ISearchable.h"
 #include "MatrixSearchProblem.h"
 #include "vector"

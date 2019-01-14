@@ -11,11 +11,9 @@
 template <class Value, class SearchType>
 class ISearchable {
 
-    virtual Value* get(SearchType searchFor) = 0;
+    virtual Value get(SearchType searchFor) = 0;
 
-    virtual SearchNode<Value>* getNode(SearchType searchFor)=0;
-
-    virtual SearchNode<Value>** getNeighbours(SearchType searchFor)=0;
+    virtual SearchNode<Value> getNeighbours(SearchType searchFor)=0;
 
 };
 

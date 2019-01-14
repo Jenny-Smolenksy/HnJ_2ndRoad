@@ -13,12 +13,12 @@
 #include "MatrixSearchProblem.h"
 #include "string.h"
 template <class Type>
-class SolverSearcher : public Solver<MatrixSearchProblem<Type>, std::string > {
+class SolverSearcher : public Solver<MatrixSearchProblem, std::string > {
 
-    ISearcher<START_END_POINT, std::string, Type, POINT> searcher;
+    ISearcher<int, POINT, string> searcher = new DFS();
 
-    virtual std::string solve(MatrixSearchProblem<Type> problem) {
-        return searcher.search(problem.matrix, problem.startEndPoint);
+    virtual std::string solve(MatrixSearchProblem problem) {
+        return searcher.search(problem.getMatrix(), problem.getStartPoint(), problem.getEndPoint());
     }
 };
 
