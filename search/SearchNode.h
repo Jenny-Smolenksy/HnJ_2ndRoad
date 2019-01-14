@@ -26,15 +26,6 @@ public:
     SearchNode *left;
     DIRECTION cameFromFirection;
 
-    vector<SearchNode<Type> *> *getFriends() {
-        auto *friends = new vector<SearchNode<Type> *>();
-        friends->insert(up);
-        friends->insert(down);
-        friends->insert(right);
-        friends->insert(left);
-        return friends;
-
-    }
 
 };
 
@@ -42,6 +33,14 @@ class POINT {
 public:
     int x;
     int y;
+
+    POINT() = default;
+
+    POINT(int a, int b) {
+        x = a;
+        y = b;
+
+    }
 
     string pointToString() {
         string res;

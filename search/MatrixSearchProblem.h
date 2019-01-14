@@ -21,6 +21,7 @@ class MatrixSearchProblem {
 public:
     MatrixSearchProblem(Matrix matrix1, POINT src, POINT dst) {
         matrix = std::move(matrix1);
+        matrix1.assignFriends();
         startEndPoint.start = src;
         startEndPoint.endp = dst;
     }
