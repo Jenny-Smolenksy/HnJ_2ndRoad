@@ -52,12 +52,12 @@ public:
         return result;
     }
 
-    virtual int get(POINT searchFor) {
+    virtual int *get(POINT searchFor) {
         if (matrix.empty() || colNum < searchFor.x || matrix.size() < searchFor.y) {
             //matrix is empty || in valid request ||
-            return -1;
+            return nullptr;
         }
-        return matrix[searchFor.y][searchFor.x];
+        return &matrix[searchFor.y][searchFor.x];
     }
 
     virtual string matToString() {

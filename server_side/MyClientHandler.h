@@ -31,7 +31,6 @@ namespace server_side {
             this->solver = solverToSet;
             this->cacheManager = cacheManagerToSet;
         }
-
         //TODO push basic server tech to the father class
         void getSingleMessage(int socketId, char **buffer) {
 
