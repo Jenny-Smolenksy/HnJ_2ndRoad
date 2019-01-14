@@ -6,27 +6,12 @@
 #include "vector"
 #include "../Utils.h"
 
-#define COMMA ","
+
 #define ENDLINE "|"
-class POINT {
-public:
-    int x;
-    int y;
-
-    string pointToString() {
-        string res;
-        res += to_string(x);
-        res += COMMA;
-        res += to_string(y);
-        return res;
-    }
 
 
-};
-
-
-class Matrix : public ISearchable<int, POINT> {
-    vector<vector<int>> matrix;
+class Matrix : public ISearchable<SearchNode<int>, POINT> {
+    vector<vector<SearchNode<int>>> matrix;
     int colNum;
 
 public:
@@ -37,22 +22,23 @@ public:
 
     void addRow(string row) {
         if (!row.empty()) {
-            vector<int> realRow = createRow(Utils::split(row, ','));
+            vector<SearchNode<int>> realRow = createRow(Utils::split(row, ','));
             colNum = (int) realRow.size();
             matrix.push_back(realRow);
         }
     }
 
-    vector<int> createRow(vector<string> row) {
-        vector<int> result;
+    vector<SearchNode<int >> createRow(vector<string> row) {
+        vector<SearchNode<int>> result;
         for (string value:row) {
             int x = atoi(value.data());
-            result.push_back(x);
+            SearchNode<int> node = createNode(&x);
+            result.push_back(node);
         }
         return result;
     }
 
-    virtual int *get(POINT searchFor) {
+    virtual SearchNode<int> *get(POINT searchFor) {
         if (matrix.empty() || colNum < searchFor.x || matrix.size() < searchFor.y) {
             //matrix is empty || in valid request ||
             return nullptr;
@@ -60,15 +46,26 @@ public:
         return &matrix[searchFor.y][searchFor.x];
     }
 
-    virtual SearchNode<int >* getNode(POINT searchFor){}
+    virtual vector<SearchNode<int> *> *getNeighbours(SearchNode<int> *searchFor) {
+        
 
-    virtual SearchNode<int >** getNeighbours(POINT searchFor){}
+    }
+
+    SearchNode<int> createNode(int *x) {
+        SearchNode<int> nodeMatrix;
+        nodeMatrix.value = x;
+        nodeMatrix.cameFromFirection = UP;
+        nodeMatrix.parent = NULL;
+        return nodeMatrix;
+
+    }
 
     virtual string matToString() {
         string result;
-        for (vector<int> s:matrix) {
-            for (int c: s) {
-                result += to_string(c);
+        for (vector<SearchNode<int>> s:matrix) {
+            for (SearchNode<int> c: s) {
+                int val = *c.value;
+                result += to_string(val);
                 result += COMMA;
             }
             result += ENDLINE;
@@ -78,6 +75,8 @@ public:
 
 
 };
+
+
 
 
 

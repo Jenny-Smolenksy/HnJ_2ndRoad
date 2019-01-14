@@ -4,21 +4,37 @@
 
 #ifndef HNJ_2NDROAD_STATE_H
 #define HNJ_2NDROAD_STATE_H
+#define COMMA ","
 
-template <class Type>
-class SearchNode {
+#include <string>
 
-    Type* value;
-    double cost;
-    Type* cameFrom;
+using namespace std;
+enum DIRECTION {
+    UP, DOWN, RIGHT, LEFT
 };
 
-enum DIRECTION { UP, DOWN, RIGHT, LEFT};
+template<class Type>
+class SearchNode {
+public:
+    Type *value;
+    double cost;
+    SearchNode *parent;
+    DIRECTION cameFromFirection;;
+};
 
-template <class Type>
-class SearchNodeMatrix : public SearchNode<Type> {
+class POINT {
+public:
+    int x;
+    int y;
 
-    DIRECTION cameFromFirection;
+    string pointToString() {
+        string res;
+        res += to_string(x);
+        res += COMMA;
+        res += to_string(y);
+        return res;
+    }
+
 
 };
 
