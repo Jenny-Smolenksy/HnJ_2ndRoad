@@ -22,12 +22,31 @@ class DFS : public Searcher <Type, SearchType, Solution>{
 
         while(!stack.empty()) {
             current = stack.pop();
+
+            if(current == end) {
+                break;
+            }
             if(!current->discovered) {
                 current->discovered = true;
 
+                 vector<SearchNode<Type>*>* neighbours = searchable->getNeighbours(current);
+                 for(SearchNode<Type>* adj:neighbours) {
+
+                     if (adj == end) {
+                         break;
+                     }
+                     stack.push(&adj);
+
+                 }
 
             }
         }
+
+        while(!stack.empty()) {
+            stack.pop();
+        }
+
+
 
 
         //problem of dfs dtart_end point

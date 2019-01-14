@@ -14,6 +14,8 @@ public:
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
             SearchNode<Type>* start, SearchNode<Type>* end) = 0;
 
+
+
 };
 
 #endif //HNJ_2NDROAD_ISEARCHER_H

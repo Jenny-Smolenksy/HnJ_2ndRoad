@@ -6,14 +6,15 @@
 #define HNJ_2NDROAD_ISEARCHABLE_H
 
 #include <termio.h>
+#include <vector>
 #include "SearchNode.h"
 
-template <class Value, class SearchType>
+template<class Type, class SearchType>
 class ISearchable {
+public:
+    virtual SearchNode<Type> *get(SearchType searchFor) = 0;
 
-    virtual Value get(SearchType searchFor) = 0;
-
-    virtual SearchNode<Value> getNeighbours(SearchType searchFor)=0;
+    virtual vector <SearchNode<Type>*> *getNeighbours(SearchNode<Type>* searchFor) = 0;
 
 };
 
