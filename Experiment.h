@@ -86,7 +86,7 @@ public:
     string solutionFormat() {
         string solution = to_string((int) searcher->getPathCost(mat.get(startPoint), mat.get(endPoint)));
         solution += ",";
-        solution += to_string(searcher->getPathNodeAmount(mat.get(startPoint), mat.get(endPoint)));
+        solution += to_string(searcher->getDiscovered());
 
         return solution;
     }
