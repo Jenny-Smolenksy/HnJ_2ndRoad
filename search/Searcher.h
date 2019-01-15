@@ -64,11 +64,11 @@ public:
         return str;
     }
 
-    virtual int getPathNodeAmount(SearchNode<Type> *start, SearchNode<Type> *end) {
+    virtual int getPathNodeAmount(SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
         int count = 1;
 
-        SearchNode<Type> *current = end;
+        SearchNode<Type> *current = endNode;
         while (current != start && current != nullptr) {
 
             count++;

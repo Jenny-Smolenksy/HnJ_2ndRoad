@@ -65,10 +65,11 @@ namespace server_side {
                         cout << s << endl;
 
 
-                        string solutionStr;// = std::to_string(s);
+                        string solutionStr = s;
                         //write response to client - check this please
                         int resultCode;
                         size_t len = solutionStr.length();
+                        //TODO get messege right - not working
                         resultCode = (int) send(socketId, &solutionStr, len, 0);
 
                         //check message sent

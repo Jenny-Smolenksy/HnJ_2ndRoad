@@ -8,133 +8,68 @@
 
 #include "ISearcher.h"
 #include "Searcher.h"
+#include "queue"
 #include <string>
 
 template<class Type>
 class Compare {
+public:
     bool operator()(SearchNode<Type> *a, SearchNode<Type> *b) {
-        return a->cost > b->cost;
+        return a->getCost() > b->getCost();
     }
 };
 
 template<class Type, class SearchType, class Solution>
 class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
     virtual Solution
-    search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *end) {
-        
-    }
-/*
-    Solution search(ISearchable<Value, SearchType> searchable, Problem p) override {
-        PriorityQueue priorityQueue;
-        SearchResult searchResult;
 
-        searchResult.developedVerticels = 0;
-        searchResult.shortestPathRoute = "";
-        searchResult.shortestPathWeight = 0;
-        State* goalState;
-        goalState = searchable->getGoalState();
+    search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
-        priority_queue<Node *, std::vector<Node *>, Compare> pqu;
+        priority_queue < SearchNode<Type> * , vector<SearchNode<Type> *>, Compare<Type>>
+        priority_queue1;
 
-        searchable->getInitialState()->commingFrom = Start;
+        priority_queue1.push(start);
+        this->countDiscovered = 0;
 
-        pqu.push((searchable->getInitialState()));
+        SearchNode<Type> *current;
 
-        State *current_node;
-        while (!pqu.empty())
-        {
-            current_node = pqu.top();
-            pqu.pop();
+        bool found = false;
 
-            if (current_node == goalState) //finished
-            {
+        while (!priority_queue1.empty() && !found) {
+            current = priority_queue1.top();
+            priority_queue1.pop();
+
+            updateCount(current);
+            if (current == endNode) {
+                //found the wanted node
                 break;
             }
+            vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
-
-
-            //top
-            if (current_node->top != NULL && !current_node->top->isInfinity && current_node->top->commingFrom == NotSet)
-            {
-                current_node->top->commingFrom = Down;
-                pqu.push(current_node->top);
-
+            for (SearchNode<Type> *adj:(*neighbours)) {
+                updateCount(adj);
+                if (adj->parent == nullptr) {
+                    adj->parent = current;
+                    priority_queue1.push(adj);
+                }
+                if (adj == endNode) {
+                    found = true;
+                    adj->parent = (current);
+                    break;
+                }
             }
-
-            //bottom
-            if (current_node->bottom != NULL && !current_node->bottom->isInfinity && current_node->bottom->commingFrom == NotSet)
-            {
-                current_node->bottom->commingFrom = Up;
-                pqu.push(current_node->bottom);
-            }
-            //left
-            if (current_node->left != NULL && !current_node->left->isInfinity && current_node->left->commingFrom == NotSet)
-            {
-                current_node->left->commingFrom = Right;
-                pqu.push(current_node->left);
-            }
-            //right
-            if (current_node->right != NULL && !current_node->right->isInfinity && current_node->right->commingFrom == NotSet)
-            {
-                current_node->right->commingFrom = Left;
-                pqu.push(current_node->right);
-            }
-
-            searchResult.developedVerticels++;
-
         }
-
-        //no path exists!
-        if (current_node != goalState){
-            searchResult.shortestPathRoute = "";
-            searchResult.shortestPathWeight = -1;
-            return searchResult;
-        }
-
-
-        bool arrivedStart = false;
-
-        string currentDir;
-        while (!arrivedStart)
-        {
-
-            searchResult.shortestPathWeight += current_node->weigth;
-            switch (current_node->commingFrom)
-            {
-                case Up:
-                    current_node = current_node->top;
-                    currentDir = "Down, ";
-                    break;
-                case Down:
-                    current_node = current_node->bottom;
-                    currentDir = "Up, ";
-                    break;
-                case Left:
-                    current_node = current_node->left;
-                    currentDir = "Right, ";
-                    break;
-                case Right:
-                    current_node = current_node->right;
-                    currentDir = "Left, ";
-                    break;
-                case Start:
-                    arrivedStart = true;
-                    break;
-                default:
-                    throw "not valid scenario";
-            }
-            if (!arrivedStart)
-                searchResult.shortestPathRoute.insert(0, currentDir);
-        }
-        searchResult.shortestPathRoute =
-                searchResult.shortestPathRoute.substr(0, searchResult.shortestPathRoute.length() - 2);
-
-
-        return searchResult;
-
-
+        return this->getPathStr(start, endNode);
     }
-*/
+
+    void updateCount(SearchNode<Type> *current) {
+        if (!current->isDicovered()) {
+            current->setAsDiscovered();
+            this->countDiscovered++;
+        }
+    }
+
+
 };
 
 
