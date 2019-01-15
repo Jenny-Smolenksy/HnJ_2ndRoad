@@ -27,6 +27,8 @@ public:
         for (const string &line:Utils::split(mat, div)) {
             this->mat.addRow(line);
         }
+        startPoint=POINT(0,0);
+        endPoint=POINT(this->mat.size()-1,this->mat.size()-1);
         this->mat.assignFriends();
     }
 

@@ -60,11 +60,12 @@ namespace server_side {
                     if (cacheManager->isSolution(problem)) {
                         cout << cacheManager->getSolution(problem) << endl;
                     } else {
-                        Solution solution = solver->solve(m);
-                        cacheManager->saveSolution(problem, solution);
+                        Solution s = solver->solve(m);
+                        cacheManager->saveSolution(problem, s);
+                        cout << s << endl;
 
 
-                        string solutionStr = solution;
+                        string solutionStr;// = std::to_string(s);
                         //write response to client - check this please
                         int resultCode;
                         size_t len = solutionStr.length();
