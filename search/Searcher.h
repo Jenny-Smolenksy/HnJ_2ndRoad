@@ -10,6 +10,11 @@
 template<class Type, class SearchType, class Solution>
 class Searcher : public ISearcher<Type, SearchType, Solution> {
 
+
+
+protected:
+    int countDiscovered;
+
 public:
 
     virtual Solution search(ISearchable<Type, SearchType> *searchable,
@@ -73,6 +78,10 @@ public:
             return -1;
         }
         return count;
+    }
+
+    int getDiscovered(){
+        return this->countDiscovered;
     }
 
 

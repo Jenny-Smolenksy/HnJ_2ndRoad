@@ -18,20 +18,27 @@ public:
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
+
         std::stack<SearchNode<Type>*> stack;
         stack.push(start);
         SearchNode<Type>* current;
         bool found = false;
 
+        this->countDiscovered = 0;
+
         while(!stack.empty() && !found) {
             current = stack.top();
             stack.pop();
+
+            if(!current->isVisited()) {
+                this->countDiscovered++;
+                current->visit();
+            }
 
             if (current == end) {
                 found = true;
                 break;
             }
-
 
             if (!current->isDicovered()) {
                 current->setAsDiscovered();
@@ -39,6 +46,11 @@ public:
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
                 for (SearchNode<Type> *adj:(*neighbours)) {
+
+                    if(!adj->isVisited()) {
+                        adj->visit();
+                        this->countDiscovered ++;
+                    }
 
                     if (adj == end) {
                         found = true;
@@ -48,6 +60,8 @@ public:
                     if (!adj->isDicovered()) {
                         stack.push(adj);
                         adj->parent = (current);
+
+
                     }
 
                 }

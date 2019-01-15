@@ -64,8 +64,8 @@ public:
             cout << "route: " ;
             cout << searcher->search(&mat, startNode, endNode) << endl;
 
-            cout << "amount of nodes: " << searcher->getPathNodeAmount(startNode, endNode) << endl;
-            cout << "path cose: " << searcher->getPathCost(startNode, endNode) << endl;
+            cout << "amount of nodes reviled: " << searcher->getDiscovered() << endl;
+            cout << "path cost: " << searcher->getPathCost(startNode, endNode) << endl;
             //TODO write mat to mat file
             //TODO write solution;
         }

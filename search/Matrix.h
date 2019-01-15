@@ -16,6 +16,7 @@ class Matrix : public ISearchable<int, POINT> {
     int colNum;
     vector<vector<SearchNode<int> *> *> destroy;
 
+
 public:
     Matrix() {
         colNum = 0;
@@ -102,7 +103,7 @@ public:
                 node-> up = (get(POINT(y - 1, x)));
                 node->down = (get(POINT(y + 1, x)));
                 node->right = (get(POINT(y, x + 1)));
-                node->left = (get(POINT(y, x + 1)));
+                node->left = (get(POINT(y, x - 1)));
                 x++;
             }
             //move to other line

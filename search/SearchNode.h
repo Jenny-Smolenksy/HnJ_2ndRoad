@@ -20,6 +20,7 @@ class SearchNode {
     bool discovered = false;
     Type value;
     double cost;
+    bool visited;
 
 public:
 
@@ -31,6 +32,7 @@ public:
 
     SearchNode<Type>(){
         this->discovered = false;
+        this->visited = false;
     }
 
     string getDicrection(SearchNode<Type>* searchNode) {
@@ -88,6 +90,14 @@ public:
 
     double getCost(){
         return this->cost;
+    }
+
+    bool isVisited() {
+        return this->visited;
+    }
+
+    void visit() {
+        this->visited = true;
     }
 
 

@@ -18,6 +18,8 @@ class BFS : public Searcher<Type, SearchType, Solution> {
 
         queue.push(start);
 
+        this->countDiscovered = 0;
+
         SearchNode<Type>* current;
         bool found = false;
 
@@ -25,6 +27,12 @@ class BFS : public Searcher<Type, SearchType, Solution> {
 
             current = queue.front();
             queue.pop();
+
+            if(!current->isVisited()) {
+                current->visit();
+                this->countDiscovered++;
+            }
+
             if (current == end) {
                 found = true;
                 break;
@@ -40,6 +48,11 @@ class BFS : public Searcher<Type, SearchType, Solution> {
                     break;
                 }
                 */
+                if(!adj->isVisited()) {
+                    adj->visit();
+                    this->countDiscovered++;
+                }
+
                 if (!adj->isDicovered()) {
                     adj->setAsDiscovered();
                     queue.push(adj);
