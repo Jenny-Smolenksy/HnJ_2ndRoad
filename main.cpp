@@ -21,13 +21,16 @@ int main(int arg, char *argv[]) {
 
     Expretiment experiment;
     experiment.buildMatrix("1,2,3$4,5,6$7,8,9", '$');
-    POINT* start = new POINT(0,0);
-    POINT* end = new POINT(2,1);
-    experiment.addStartEndPoint(*start, *end);
+    experiment.addStartEndPoint(POINT(0,0),POINT(2,1));
+    auto search =new DFS<int, POINT, string>();
+    experiment.addSearchMethod(search);
+    experiment.expirience();
+    experiment.writeToFile("Graph","Solutions");
+    delete search;
 
 
 
-
+/*
     CacheManager *cacheManager = new FileCacheManager("reverse");
     string sol;
     string problem;
@@ -45,7 +48,7 @@ int main(int arg, char *argv[]) {
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
-
+*/
     /*
    while (getline(cin, problem)) {
        bool c = x->isSolution(problem);

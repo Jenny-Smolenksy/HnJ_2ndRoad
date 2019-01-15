@@ -18,7 +18,6 @@ public:
     virtual double getPathCost(SearchNode<Type>* start, SearchNode<Type>* end) {
 
         double cost = 0;
-
         SearchNode<Type>* current = end;
         while(current != start && current != nullptr) {
 
@@ -33,13 +32,17 @@ public:
 
     virtual string getPath(SearchNode<Type>* start, SearchNode<Type>* end) {
 
-        string str = "";
+        string str;
 
         SearchNode<Type>* current = end;
         while(current != start && current != nullptr) {
 
             str = current->parent->getDicrection(current)+ ", " + str;
             current = current->parent;
+        }
+        if(!str.empty()) {
+            str.pop_back();
+            str.pop_back();
         }
         return str;
     }

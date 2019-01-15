@@ -17,8 +17,7 @@ enum DIRECTION {
 template<class Type>
 class SearchNode {
 public:
-    Type *value;
-    double cost;
+    int cost;
     SearchNode *parent;
     SearchNode *up;
     SearchNode *down;

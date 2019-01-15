@@ -21,6 +21,8 @@ public:
 
     void writeToFile(string fileName, string SolFormat, string ProbFormat);
 
+    void writeSimple(string file,string to_write);
+
     bool isSame(string key,string line);
 
 };

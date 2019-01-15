@@ -24,7 +24,7 @@ string FileToucher::getByKey(string fileName, string key) {
     string line;
     vector<string> splited;
     if (fin.is_open()) {
-        while (getline(fin, line)&& !line.empty()) {
+        while (getline(fin, line) && !line.empty()) {
             splited = Utils::split(line, DIVIDER);
             if (isSame(splited[0], key)) {
                 fin.close();
@@ -38,7 +38,6 @@ string FileToucher::getByKey(string fileName, string key) {
 }
 
 void FileToucher::writeToFile(string fileName, string SolFormat, string ProbFormat) {
-//TODO unick id ot find the whole problem ?
     ofstream eFile;
     eFile.open(fileName, ios::out | ios::app | ios::ate);
     if (!eFile.is_open())
@@ -57,6 +56,15 @@ bool FileToucher::isSame(string key, string line) {
         }
     }
     return true;
+}
+
+void FileToucher::writeSimple(string file, string to_write) {
+    ofstream eFile;
+    eFile.open(file, ios::out | ios::app | ios::ate);
+    if (!eFile.is_open())
+        throw "cant open file";
+    eFile << to_write << "\n";
+    eFile.close();
 }
 
 
