@@ -25,23 +25,45 @@ public:
             cost += current->cost;
             current = current->parent;
         }
-        if(current != nullptr) {
-            cost += current->cost;
+        if (current != start) {
+            return -1;
         }
         return cost;
     }
 
-    virtual string getPath(SearchNode<Type>* start, SearchNode<Type>* end) {
+    virtual string getPathStr(SearchNode<Type>* start, SearchNode<Type>* end) {
 
         string str = "";
 
         SearchNode<Type>* current = end;
+
+        str = current->parent->getDicrection(current);
+        current = current->parent;
         while(current != start && current != nullptr) {
 
             str = current->parent->getDicrection(current)+ ", " + str;
             current = current->parent;
         }
+        if (current != start) {
+            return "no path";
+        }
         return str;
+    }
+
+    virtual int getPathNodeAmount(SearchNode<Type>* start, SearchNode<Type>* end) {
+
+        int count = 0;
+
+        SearchNode<Type>* current = end;
+        while(current != start && current != nullptr) {
+
+            count++;
+            current = current->parent;
+        }
+        if (current != start) {
+            return -1;
+        }
+        return count;
     }
 
 

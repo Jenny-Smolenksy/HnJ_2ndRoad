@@ -28,6 +28,9 @@ public:
 
         auto *d = new DFS<int, POINT, string>();
        cout << d->search(&mat, startNode, endNode) << endl;
+
+       cout << d->getPathNodeAmount(startNode, endNode) << ", ";
+       cout << d->getPathCost(startNode, endNode);
     }
 
 

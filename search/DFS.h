@@ -70,7 +70,7 @@ public:
         }
 
 
-        return this->getPath(start, end);
+        return this->getPathStr(start, end);
 
     }
 
