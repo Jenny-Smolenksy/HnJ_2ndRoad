@@ -51,7 +51,7 @@ public:
      */
     string problemToString() {
         string finalProb;
-        string mat = matrix->to_string();
+        string mat = matrix->search_base_to_string();
 
         finalProb += mat;
         finalProb += DIVIDER;

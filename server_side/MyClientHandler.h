@@ -15,10 +15,7 @@
 
 namespace server_side {
 
-    struct Path {
-        string path;
-        int countSteps;
-    };
+
 
     template<class Problem, class Solution>
     class MyClientHandler : public ClientHandler {
@@ -32,7 +29,7 @@ namespace server_side {
             this->cacheManager = cacheManagerToSet;
         }
 
-        //TODO push basic server tech to the father class
+
         void getSingleMessage(int socketId, char **buffer) {
 
             int n;
@@ -57,21 +54,29 @@ namespace server_side {
             /* If connection is established then start communicating */
             while (true) {
                 try {
-                    MatrixSearchProblem m = getSingleSearchRequest(socketId);
-                    //try write down a problem
-                    cacheManager->saveSolution(m.problemToString(), "good");
-                    //     string result =solver->solve(m);
+                    Matrix *matrix = new Matrix();
+                    MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
+                    string problem = m.problemToString();
+                    if (cacheManager->isSolution(problem)) {
+                        cout << cacheManager->getSolution(problem) << endl;
+                    } else {
+                        Solution s = solver->solve(m);
+                        cacheManager->saveSolution(problem, s);
+                        cout << s << endl;
 
+                    }
+                    delete matrix;
                     //TODO search in cache
                     //TODO search in solver
                     //TODO get result to client
+                    //TODO delete mat pointer
                 } catch (const char *ex) {
                     return;
                 }
             }
         }
 
-        MatrixSearchProblem getSingleSearchRequest(int socketId) {
+        MatrixSearchProblem getSingleSearchRequest(int socketId, Matrix *matrix) {
             //get whole problem
             MatrixSearchProblem problem;
             vector<string> request = getRequest(socketId);
@@ -90,16 +95,8 @@ namespace server_side {
             //remove source point
             request.pop_back();
 
-            problem.setMatrix(getMatrix(request, new Matrix));
-
-
-            //test
-            /* cout << "dst value is:" << endl;
-             cout << mat.get(dst) << endl;
-
-             cout << "src value is:" << endl;
-             cout << mat.get(src) << endl;*/
-
+            problem.setMatrix(getMatrix(request, matrix));
+            return problem;
 
         }
 

@@ -4,7 +4,7 @@
 #include "cache/FileCacheManager.h"
 #include "server_side/MySerialServer.h"
 #include "problem_solve/StringReverser.h"
-
+#include "search/SolverSearcher.h"
 using namespace server_side;
 
 
@@ -29,9 +29,9 @@ int main(int arg, char *argv[]) {
    // delete search;
 
     CacheManager *cacheManager = new FileCacheManager("Matrix");
-    Solver<string, string> *solver = new StringReverser();
+    Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int >(search);
 
-    ClientHandler *clientHandler = new MyClientHandler<string, string>(solver, cacheManager);
+    ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);
     Server *server;
 
     try {

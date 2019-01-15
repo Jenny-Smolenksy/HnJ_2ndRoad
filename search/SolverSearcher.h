@@ -16,9 +16,9 @@
 template<class Type>
 class SolverSearcher : public Solver<MatrixSearchProblem, std::string> {
 
-    ISearcher<int, POINT, string> *searcher;
-
-    SolverSearcher(ISearcher<int, POINT, string> *s) {
+    ISearcher<Type, POINT, string> *searcher;
+public:
+    SolverSearcher(ISearcher<Type, POINT, string> *s) {
         searcher = s;
     }
 

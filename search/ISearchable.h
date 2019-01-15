@@ -17,7 +17,7 @@ public:
 
     virtual vector<SearchNode<Type> *> *getNeighbours(SearchNode<Type> *searchFor) = 0;
 
-    virtual string to_string() = 0;
+    virtual string search_base_to_string() = 0;
 
     virtual void assignFriends() = 0;
 

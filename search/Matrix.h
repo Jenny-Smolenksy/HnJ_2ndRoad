@@ -99,10 +99,10 @@ public:
         for (vector<SearchNode<int> *> v: matrix) {
             int x = 0;
             for (SearchNode<int> *node:v) {
-                node->up = get(POINT(x, y - 1));
-                node->down = get(POINT(x, y + 1));
-                node->right = get(POINT(x + 1, y));
-                node->left = get(POINT(x - 1, y));
+                node->up = get(POINT(y - 1, x));
+                node->down = get(POINT(y + 1, x));
+                node->right = get(POINT(y, x + 1));
+                node->left = get(POINT(y, x + 1));
                 x++;
             }
             //move to other line
@@ -110,11 +110,11 @@ public:
         }
     }
 
-    virtual string to_string() {
+    virtual string search_base_to_string() {
         string result;
         for (vector<SearchNode<int> *> s:matrix) {
             for (SearchNode<int> *c: s) {
-                result += c->cost;
+                result += to_string(c->cost);
                 result += COMMA;
             }
             result.pop_back();

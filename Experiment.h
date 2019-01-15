@@ -74,7 +74,7 @@ public:
 
     string matRepesentation() {
         string matRep;
-        for (char c:mat.to_string()) {
+        for (char c:mat.search_base_to_string()) {
             if (c == '|') {
                 matRep += "\n";
             } else {
