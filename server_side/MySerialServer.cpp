@@ -19,8 +19,6 @@ void* threadFuncListen(void* arg) {
 
 void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
-    void* dummy;
-
     this->clientHandler = clientHandler;
 
     createSocket(port, DEFAULT_TIME_PER_SEC);
@@ -43,7 +41,7 @@ void MySerialServer::serialListen() {
 
     timeval timeout;
     //time out only for clients after the first
-    timeout.tv_sec = 10;
+    timeout.tv_sec = 1;
     timeout.tv_usec = 0;
 
     timeval timeOutMessage;

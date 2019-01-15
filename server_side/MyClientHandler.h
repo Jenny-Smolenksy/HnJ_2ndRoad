@@ -47,6 +47,7 @@ namespace server_side {
 
         void handleClient(int socketId) override {
             int n;
+            char response[BUFFER_SIZE];
             if (socketId == -1) {
                 return; //nothing to listen to
             }
@@ -60,17 +61,26 @@ namespace server_side {
                     if (cacheManager->isSolution(problem)) {
                         cout << cacheManager->getSolution(problem) << endl;
                     } else {
-                        Solution s = solver->solve(m);
-                        cacheManager->saveSolution(problem, s);
-                        cout << s << endl;
+
+                        Solution solution = solver->solve(m);
+                        cacheManager->saveSolution(problem, solution);
+
+                        std::ostringstream stream;
+                        stream << solution;
+
+                        string solutionStr = stream.str();
 
 
-                        string solutionStr = s;
+                        cout << "solution: " << endl;
+                        cout << solutionStr << endl;
                         //write response to client - check this please
                         int resultCode;
                         size_t len = solutionStr.length();
+                        strcpy(response, solutionStr.c_str());
+
+
                         //TODO get messege right - not working
-                        resultCode = (int) send(socketId, &solutionStr, len, 0);
+                        resultCode = (int) send(socketId, response, len, 0);
 
                         //check message sent
                         if (resultCode < ZERO) {

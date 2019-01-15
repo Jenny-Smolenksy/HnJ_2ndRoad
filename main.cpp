@@ -24,13 +24,13 @@ int main(int arg, char *argv[]) {
 
      experiment.buildMatrix("1,2,5$7,3,7$6,9,1", '$');
   //  experiment.generateMatrix(10);
-    auto search = new BestFirstSearch<int, POINT, string>();
+    auto search = new DFS<int, POINT, string>();
     experiment.addSearchMethod(search);
     experiment.expirience();
     experiment.writeToFile("Graph", "Solutions");
     // delete search;
 
-  /*  CacheManager *cacheManager = new FileCacheManager("Matrix");
+    CacheManager *cacheManager = new FileCacheManager("Matrix");
     Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int >(search);
 
     ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);
@@ -45,7 +45,7 @@ int main(int arg, char *argv[]) {
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
-    */
+
 /*
 
     Expretiment experiment1;

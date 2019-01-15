@@ -1,6 +1,5 @@
 #include "AServer.h"
 
-using namespace server_side;
 
 namespace server_side {
 
