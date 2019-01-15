@@ -19,7 +19,7 @@ class SearchNode {
 
     bool discovered = false;
     Type value;
-    int cost;
+    double cost;
 
 public:
 

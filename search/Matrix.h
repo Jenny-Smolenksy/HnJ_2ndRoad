@@ -132,6 +132,10 @@ public:
         return matrix.empty();
     }
 
+    int size(){
+        return colNum;
+    }
+
     ~Matrix() {
         for (vector<SearchNode<int> *> v: matrix) {
             for (SearchNode<int> *node:v) {

@@ -65,7 +65,7 @@ namespace server_side {
                         cout << s << endl;
 
 
-                        string solutionStr = std::to_string(s);
+                        string solutionStr;// = std::to_string(s);
                         //write response to client - check this please
                         int resultCode;
                         size_t len = solutionStr.length();
