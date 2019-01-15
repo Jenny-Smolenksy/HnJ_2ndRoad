@@ -59,7 +59,11 @@ public:
         SearchNode<int> *endNode = mat.get(endPoint);
         if (!this->mat.empty() && startNode != nullptr && endNode != nullptr && searcher != nullptr) {
 
+            cout << "route: " ;
             cout << searcher->search(&mat, startNode, endNode) << endl;
+
+            cout << "amount of nodes: " << searcher->getPathNodeAmount(startNode, endNode) << endl;
+            cout << "path cose: " << searcher->getPathCost(startNode, endNode) << endl;
             //TODO write mat to mat file
             //TODO write solution;
         }

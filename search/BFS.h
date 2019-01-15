@@ -1,37 +1,32 @@
 //
-// Created by jenny on 1/14/19.
+// Created by jenny on 1/15/19.
 //
 
-#ifndef HNJ_2NDROAD_DFS_H
-#define HNJ_2NDROAD_DFS_H
+#ifndef HNJ_2NDROAD_BFS_H
+#define HNJ_2NDROAD_BFS_H
 
-
-#include <stack>
 #include "Searcher.h"
-#include "MatrixSearchProblem.h"
+#include <queue>
 
 template <class Type, class SearchType, class Solution>
-class DFS : public Searcher <Type, SearchType, Solution>{
-
-public:
-
+class BFS : public Searcher<Type, SearchType, Solution> {
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
-        std::stack<SearchNode<Type>*> stack;
-        stack.push(start);
+        queue<SearchNode<Type>*> queue;
+
+        queue.push(start);
+
         SearchNode<Type>* current;
         bool found = false;
 
-        while(!stack.empty() && !found) {
-            current = stack.top();
-            stack.pop();
+        while(!queue.empty() && !found) {
+            current = queue.pop();
 
             if (current == end) {
                 found = true;
                 break;
             }
-
 
             if (!current->discovered) {
                 current->discovered = true;
@@ -39,14 +34,15 @@ public:
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
                 for (SearchNode<Type> *adj:(*neighbours)) {
-
+/*
                     if (adj == end) {
                         found = true;
                         adj->parent = current;
                         break;
                     }
+                    */
                     if (!adj->discovered) {
-                        stack.push(adj);
+                        queue.push(adj);
                         adj->parent = current;
                     }
 
@@ -61,14 +57,11 @@ public:
             stack.pop();
         }
 
-
         return this->getPathStr(start, end);
-    }
 
+    }
 
 
 };
 
-
-
-#endif //HNJ_2NDROAD_DFS_H
+#endif //HNJ_2NDROAD_BFS_H
