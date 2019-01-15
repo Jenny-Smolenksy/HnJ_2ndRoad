@@ -1,9 +1,5 @@
 #include <iostream>
-#include "cache/FileCacheManager.h"
-#include "server_side/MySerialServer.h"
 #include "server_side/MyClientHandler.h"
-#include "problem_solve/StringReverser.h"
-#include "server_side/MyTestClientHandler.h"
 #include "Experiment.h"
 
 using namespace server_side;
@@ -20,12 +16,15 @@ int main(int arg, char *argv[]) {
     int portNumber = atoi(argv[1]);
 
     Expretiment experiment;
-    experiment.buildMatrix("1,2,3$4,5,6$7,8,9", '$');
-    experiment.addStartEndPoint(POINT(0,0),POINT(2,1));
-    auto search =new DFS<int, POINT, string>();
+
+    // experiment.buildMatrix("1,2,3$4,5,6$7,8,9", '$');
+    experiment.generateMatrix(10);
+    experiment.buildMatrix("1,2,3|4,5,6|7,8,9|10,11,12",'|');
+    experiment.addStartEndPoint(POINT(0, 0), POINT(3, 0));
+    auto search = new DFS<int, POINT, string>();
     experiment.addSearchMethod(search);
     experiment.expirience();
-    experiment.writeToFile("Graph","Solutions");
+    experiment.writeToFile("Graph", "Solutions");
     delete search;
 
 

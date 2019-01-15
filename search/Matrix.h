@@ -42,15 +42,15 @@ public:
     }
 
     virtual SearchNode<int> *get(POINT searchFor) {
-        if (matrix.empty() || colNum - 1 < searchFor.x || matrix.size() - 1 < searchFor.y || searchFor.x < 0 ||
+        if (matrix.empty() || colNum - 1 < searchFor.y || matrix.size() - 1 < searchFor.x || searchFor.x < 0 ||
             searchFor.y < 0) {
             //matrix is empty || in valid request ||
             return nullptr;
         }
-        if (matrix[searchFor.y][searchFor.x]->cost == -1) {
+        if (matrix[searchFor.x][searchFor.y]->cost == -1) {
             return nullptr;
         }
-        return matrix[searchFor.y][searchFor.x];
+        return matrix[searchFor.x][searchFor.y];
     }
 
     virtual vector<SearchNode<int> *> *getNeighbours(SearchNode<int> *searchFor) {

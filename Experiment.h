@@ -30,6 +30,24 @@ public:
         this->mat.assignFriends();
     }
 
+    void generateMatrix(unsigned n) {
+
+        string mat;
+
+        for (int k = 0; k < n; ++k) {
+            string line;
+            for (int i = 0; i < n; ++i) {
+                line += to_string(rand() % 10);
+                line.push_back(',');
+            }
+            line.pop_back();
+            line.push_back('|');
+            mat += line;
+        }
+        buildMatrix(mat, '|');
+
+    }
+
     void addStartEndPoint(POINT start, POINT end) {
         this->startPoint = start;
         this->endPoint = end;
@@ -64,9 +82,9 @@ public:
         return matRep;
     }
 
-    string solutionFormat(){
-        string solution = to_string((int)searcher->getPathCost(mat.get(startPoint), mat.get(endPoint)));
-        solution+=",";
+    string solutionFormat() {
+        string solution = to_string((int) searcher->getPathCost(mat.get(startPoint), mat.get(endPoint)));
+        solution += ",";
 
         return solution;
     }
@@ -81,7 +99,7 @@ public:
         writer->writeSimple(graph, matRepesentation());
 
         //solution
-        writer->writeSimple(solutions,solutionFormat());
+        writer->writeSimple(solutions, solutionFormat());
 
 
     }
