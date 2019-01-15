@@ -1,3 +1,5 @@
+#include <utility>
+
 
 #ifndef HNJ_2NDROAD_CACHMANAGER_H
 #define HNJ_2NDROAD_CACHMANAGER_H
@@ -15,7 +17,7 @@ public:
     virtual bool isSolution(string problem) {
 
         try {
-            getSolution(problem);
+            getSolution(std::move(problem));
             return true;
         }
         catch (...) {

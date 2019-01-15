@@ -50,13 +50,6 @@ public:
 
     }
 
-    void addStartEndPoint(POINT start, POINT end) {
-        this->startPoint = start;
-        this->endPoint = end;
-
-
-    }
-
     void addSearchMethod(Searcher<int, POINT, string> *s) {
         this->searcher = s;
     }

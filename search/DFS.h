@@ -10,21 +10,19 @@
 #include "Searcher.h"
 #include "MatrixSearchProblem.h"
 
-template <class Type, class SearchType, class Solution>
-class DFS : public Searcher <Type, SearchType, Solution>{
+template<class Type, class SearchType, class Solution>
+class DFS : public Searcher<Type, SearchType, Solution> {
 
 public:
 
-    virtual Solution search(ISearchable<Type, SearchType>* searchable,
-                            SearchNode<Type>* start, SearchNode<Type>* end) {
+    virtual Solution search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *end) {
 
-
-        std::stack<SearchNode<Type>*> stack;
+        std::stack<SearchNode<Type> *> stack;
         stack.push(start);
-        SearchNode<Type>* current;
+        SearchNode<Type> *current;
         bool found = false;
 
-        while(!stack.empty() && !found) {
+        while (!stack.empty() && !found) {
             current = stack.top();
             stack.pop();
 
@@ -55,14 +53,6 @@ public:
 
             }
 
-
-            //problem of dfs dtart_end point
-            //start point
-
-            //push to stack
-            //pop
-            //get my neibous
-
         }
 
         while (!stack.empty()) {
@@ -75,9 +65,7 @@ public:
     }
 
 
-
 };
-
 
 
 #endif //HNJ_2NDROAD_DFS_H

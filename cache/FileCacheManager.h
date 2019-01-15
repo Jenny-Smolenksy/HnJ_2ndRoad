@@ -19,7 +19,6 @@ public:
 
     void saveSolution(string problem, string solution) {
         FileToucher *writer = FileToucher::getInstance();
-        //write to reverse file in this mode  problem_solution
         writer->writeToFile(fileName, solution, problem);
     }
 };

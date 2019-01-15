@@ -7,31 +7,22 @@
 
 
 #include "ISearcher.h"
-#include "PriorityQueue.h"
-#include "Matrix.h"
+#include "Searcher.h"
 #include <string>
 
-using namespace std;
-struct Node {
-    int value;
-    int prior;
-    Node *parent;
-
-};
-struct SearchResult {
-    int developedNodes;
-    int totalWeight;
-    string path;
-};
-
+template<class Type>
 class Compare {
-    bool operator()(Node *a, Node *b) {
-        return a->value > b->value;
+    bool operator()(SearchNode<Type> *a, SearchNode<Type> *b) {
+        return a->cost > b->cost;
     }
 };
 
-template<class Problem, class Solution, class Value, class SearchType>
-class BestFirstSearch : public ISearcher<Problem, Solution, Value, SearchType> {
+template<class Type, class SearchType, class Solution>
+class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
+    virtual Solution
+    search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *end) {
+        
+    }
 /*
     Solution search(ISearchable<Value, SearchType> searchable, Problem p) override {
         PriorityQueue priorityQueue;

@@ -16,7 +16,6 @@
 namespace server_side {
 
 
-
     template<class Problem, class Solution>
     class MyClientHandler : public ClientHandler {
 
@@ -66,10 +65,7 @@ namespace server_side {
 
                     }
                     delete matrix;
-                    //TODO search in cache
-                    //TODO search in solver
                     //TODO get result to client
-                    //TODO delete mat pointer
                 } catch (const char *ex) {
                     return;
                 }
