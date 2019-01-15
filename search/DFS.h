@@ -13,6 +13,8 @@
 template <class Type, class SearchType, class Solution>
 class DFS : public Searcher <Type, SearchType, Solution>{
 
+public:
+
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
@@ -47,8 +49,7 @@ class DFS : public Searcher <Type, SearchType, Solution>{
         }
 
 
-
-
+        return getPath(start, end);
         //problem of dfs dtart_end point
         //start point
 

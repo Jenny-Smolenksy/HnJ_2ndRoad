@@ -15,10 +15,14 @@
 template <class Type>
 class SolverSearcher : public Solver<MatrixSearchProblem, std::string > {
 
-    ISearcher<int, POINT, string> searcher = new DFS();
+    //ISearcher<int, POINT, string> searcher = new DFS();
 
     virtual std::string solve(MatrixSearchProblem problem) {
-        return searcher.search(problem.getMatrix(), problem.getStartPoint(), problem.getEndPoint());
+
+        SearchNode<Type>* startNode = problem.getMatrix().get(problem.getStartPoint());
+        SearchNode<Type>* endNode = problem.getMatrix().get(problem.getEndPoint());
+
+        //return searcher.search(problem.getMatrix(), problem.getStartPoint(), problem.getEndPoint());
     }
 };
 

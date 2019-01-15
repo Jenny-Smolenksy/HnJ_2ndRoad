@@ -14,7 +14,8 @@ class ISearchable {
 public:
     virtual SearchNode<Type> *get(SearchType searchFor) = 0;
 
-    virtual vector <SearchNode<Type>*> *getNeighbours(SearchNode<Type>* searchFor) = 0;
+
+    virtual vector<SearchNode<Type> *> *getNeighbours(SearchNode<Type> *searchFor) = 0;
 
 };
 

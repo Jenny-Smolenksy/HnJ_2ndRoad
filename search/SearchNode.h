@@ -16,8 +16,6 @@ enum DIRECTION {
 
 template<class Type>
 class SearchNode {
-
-
 public:
     Type *value;
     double cost;
@@ -27,7 +25,6 @@ public:
     SearchNode *right;
     SearchNode *left;
     DIRECTION cameFromFirection;
-
 
     vector<SearchNode<Type> *> *getFriends() {
         auto *friends = new vector<SearchNode<Type> *>();
@@ -39,61 +36,6 @@ public:
 
     }
 
-    void setValue(Type *value) {
-         this->value = value;
-    }
-
-    Type* getValue() {
-        return this->value;
-    }
-
-    void setCost(double cost) {
-        this->cost = cost;
-    }
-
-    double getCost() {
-        return this->cost;
-    }
-
-    SearchNode* getParent() {
-        return this->parent;
-    }
-    void setParent(SearchNode* parent) {
-        this->parent = parent;
-    }
-    SearchNode* getRight() {
-        return this->right;
-    }
-    void setRight(SearchNode* right) {
-        this->right = right;
-    }
-    SearchNode* getLeft() {
-        return this->left;
-    }
-    void setLeft(SearchNode* left) {
-        this->left = left;
-    }
-    SearchNode* getUp() {
-        return this->up;
-    }
-    void setUP(SearchNode* up) {
-        this->up = up;
-    }
-    SearchNode* getDown() {
-        return this->down;
-    }
-    void setDown(SearchNode* down) {
-        this->down = down;
-    }
-    SearchNode* getDirection() {
-        return this->down;
-    }
-    void setDirection(DIRECTION direction) {
-        this->cameFromFirection = direction;
-    }
-
-
-
 };
 
 class POINT {
@@ -101,6 +43,13 @@ public:
     int x;
     int y;
 
+    POINT() = default;
+
+    POINT(int a, int b) {
+        x = a;
+        y = b;
+
+    }
     string pointToString() {
         string res;
         res += to_string(x);
