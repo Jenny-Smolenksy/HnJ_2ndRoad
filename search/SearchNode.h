@@ -16,15 +16,22 @@ enum DIRECTION {
 
 template<class Type>
 class SearchNode {
+
+    bool discovered = false;
+    Type value;
+    int cost;
+
 public:
-    int cost{};
+
     SearchNode *parent;
     SearchNode *up;
     SearchNode *down;
     SearchNode *right;
     SearchNode *left;
-    bool discovered = false;
 
+    SearchNode<Type>(){
+        this->discovered = false;
+    }
 
     string getDicrection(SearchNode<Type>* searchNode) {
 
@@ -42,6 +49,47 @@ public:
         }
         return "";
     }
+
+    void setAsDiscovered() {
+        this->discovered = true;
+    }
+
+    bool isDicovered() {
+        return this->discovered;
+    }
+
+    bool isUp() {
+        return (this->up == nullptr);
+    }
+
+    bool isDown() {
+        return (this->down == nullptr);
+    }
+
+    bool isRight() {
+        return (this->right == nullptr);
+    }
+
+    bool isLeft() {
+        return (this->left == nullptr);
+    }
+
+    void setValue(Type value){
+        this->value = value;
+    }
+
+    Type getValue(){
+        return this->value;
+    }
+
+    void setCost(double cost){
+        this->cost = cost;
+    }
+
+    double getCost(){
+        return this->cost;
+    }
+
 
 };
 

@@ -16,6 +16,7 @@
 namespace server_side {
 
 
+
     template<class Problem, class Solution>
     class MyClientHandler : public ClientHandler {
 
@@ -63,9 +64,24 @@ namespace server_side {
                         cacheManager->saveSolution(problem, s);
                         cout << s << endl;
 
+
+                        string solutionStr = std::to_string(s);
+                        //write response to client - check this please
+                        int resultCode;
+                        size_t len = solutionStr.length();
+                        resultCode = (int) send(socketId, &solutionStr, len, 0);
+
+                        //check message sent
+                        if (resultCode < ZERO) {
+                            cout << "ERROR writing to socket" << endl;
+                        }
                     }
                     delete matrix;
+                    //TODO search in cache
+                    //TODO search in solver
                     //TODO get result to client
+                    //TODO delete mat pointer
+
                 } catch (const char *ex) {
                     return;
                 }

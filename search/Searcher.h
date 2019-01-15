@@ -22,33 +22,39 @@ public:
         SearchNode<Type> *current = end;
         while (current != start && current != nullptr) {
 
-            cost += current->cost;
+            cost += current->getCost();
             current = current->parent;
         }
 
         if (current != start) {
             return -1;
         }
-        cost += current->cost;
+        cost += current->getCost();
         return cost;
     }
 
     virtual string getPathStr(SearchNode<Type> *start, SearchNode<Type> *end) {
 
         string str;
+        string str1;
 
         SearchNode<Type> *current = end;
 
+
+        str1 = std::to_string(current->getValue());
         str = current->parent->getDicrection(current);
         current = current->parent;
         while (current != start && current != nullptr) {
 
             str = current->parent->getDicrection(current) + ", " + str;
+
+            str1  = std::to_string(current->getValue()) + " -> " + str1;
             current = current->parent;
         }
         if (current != start) {
             return "no path";
         }
+        cout << str1 << endl;
         return str;
     }
 

@@ -47,7 +47,7 @@ public:
             //matrix is empty || in valid request ||
             return nullptr;
         }
-        if (matrix[searchFor.x][searchFor.y]->cost == -1) {
+        if (matrix[searchFor.x][searchFor.y]->getCost() == -1) {
             return nullptr;
         }
         return matrix[searchFor.x][searchFor.y];
@@ -84,13 +84,13 @@ public:
     }
 
     void createNode(int *x, SearchNode<int> *nodeMatrix) {
-        nodeMatrix->cost = *x;
-        nodeMatrix->parent = NULL;
+        nodeMatrix->setCost(*x);
+        nodeMatrix->setValue(*x);
+        nodeMatrix->parent = nullptr;
+        nodeMatrix->down = nullptr;
         nodeMatrix->up = nullptr;
         nodeMatrix->left = nullptr;
         nodeMatrix->right = nullptr;
-        nodeMatrix->down = nullptr;
-
 
     }
 
@@ -99,10 +99,10 @@ public:
         for (vector<SearchNode<int> *> v: matrix) {
             int x = 0;
             for (SearchNode<int> *node:v) {
-                node->up = get(POINT(y - 1, x));
-                node->down = get(POINT(y + 1, x));
-                node->right = get(POINT(y, x + 1));
-                node->left = get(POINT(y, x + 1));
+                node-> up = (get(POINT(y - 1, x)));
+                node->down = (get(POINT(y + 1, x)));
+                node->right = (get(POINT(y, x + 1)));
+                node->left = (get(POINT(y, x + 1)));
                 x++;
             }
             //move to other line
@@ -114,7 +114,7 @@ public:
         string result;
         for (vector<SearchNode<int> *> s:matrix) {
             for (SearchNode<int> *c: s) {
-                result += to_string(c->cost);
+                result += to_string(c->getValue());
                 result += COMMA;
             }
             result.pop_back();

@@ -33,8 +33,8 @@ public:
             }
 
 
-            if (!current->discovered) {
-                current->discovered = true;
+            if (!current->isDicovered()) {
+                current->setAsDiscovered();
 
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
@@ -42,14 +42,13 @@ public:
 
                     if (adj == end) {
                         found = true;
-                        adj->parent = current;
+                        adj->parent = (current);
                         break;
                     }
-                    if (!adj->discovered) {
+                    if (!adj->isDicovered()) {
                         stack.push(adj);
-                        adj->parent = current;
+                        adj->parent = (current);
                     }
-
 
                 }
 

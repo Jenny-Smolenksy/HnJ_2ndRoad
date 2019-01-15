@@ -28,8 +28,8 @@ class BFS : public Searcher<Type, SearchType, Solution> {
                 break;
             }
 
-            if (!current->discovered) {
-                current->discovered = true;
+            if (!current->isDicovered()) {
+                current->setAsDiscovered();
 
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
@@ -41,9 +41,9 @@ class BFS : public Searcher<Type, SearchType, Solution> {
                         break;
                     }
                     */
-                    if (!adj->discovered) {
+                    if (!adj->isDicovered()) {
                         queue.push(adj);
-                        adj->parent = current;
+                        adj->setParent(current);
                     }
 
 
