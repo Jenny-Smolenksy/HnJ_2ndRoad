@@ -45,6 +45,8 @@ public:
             mat += line;
         }
         buildMatrix(mat, '|');
+        startPoint = POINT(0, 0);
+        endPoint = POINT(n - 1, n - 1);
 
     }
 
@@ -85,6 +87,7 @@ public:
     string solutionFormat() {
         string solution = to_string((int) searcher->getPathCost(mat.get(startPoint), mat.get(endPoint)));
         solution += ",";
+        solution += to_string(searcher->getPathNodeAmount(mat.get(startPoint), mat.get(endPoint)));
 
         return solution;
     }

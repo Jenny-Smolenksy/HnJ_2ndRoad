@@ -19,8 +19,6 @@ int main(int arg, char *argv[]) {
 
     // experiment.buildMatrix("1,2,3$4,5,6$7,8,9", '$');
     experiment.generateMatrix(10);
-    experiment.buildMatrix("1,2,3|4,5,6|7,8,9|10,11,12",'|');
-    experiment.addStartEndPoint(POINT(0, 0), POINT(3, 0));
     auto search = new DFS<int, POINT, string>();
     experiment.addSearchMethod(search);
     experiment.expirience();

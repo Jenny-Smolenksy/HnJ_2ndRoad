@@ -33,7 +33,7 @@ public:
 
     virtual string getPathStr(SearchNode<Type> *start, SearchNode<Type> *end) {
 
-        string str = "";
+        string str;
 
         SearchNode<Type> *current = end;
 
@@ -45,10 +45,7 @@ public:
             current = current->parent;
         }
         if (current != start) {
-            return "-1";
-        } else {
-            str.pop_back();
-            str.pop_back();
+            return "no path";
         }
         return str;
     }
