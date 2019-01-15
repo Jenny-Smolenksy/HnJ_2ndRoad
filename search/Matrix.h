@@ -110,11 +110,11 @@ public:
         }
     }
 
-    virtual string matToString() {
+    virtual string to_string() {
         string result;
         for (vector<SearchNode<int> *> s:matrix) {
             for (SearchNode<int> *c: s) {
-                result += to_string(c->cost);
+                result += c->cost;
                 result += COMMA;
             }
             result.pop_back();

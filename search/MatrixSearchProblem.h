@@ -15,19 +15,25 @@ struct START_END_POINT {
 
 class MatrixSearchProblem {
 
-    Matrix matrix;
+    ISearchable<int, POINT> *matrix;
     START_END_POINT startEndPoint;
 
 public:
-    MatrixSearchProblem(Matrix matrix1, POINT src, POINT dst) {
-        matrix = std::move(matrix1);
-        matrix1.assignFriends();
-        startEndPoint.start = src;
-        startEndPoint.endp = dst;
+    MatrixSearchProblem() = default;
+
+    ISearchable<int, POINT> *getMatrix() {
+        return matrix;
     }
 
-    Matrix getMatrix() {
-        return matrix;
+    void setMatrix(ISearchable<int, POINT> *mat) {
+        mat->assignFriends();
+        matrix = mat;
+
+    }
+
+    void setStartEnd(POINT src, POINT dst){
+        startEndPoint.start = src;
+        startEndPoint.endp = dst;
     }
 
     POINT getStartPoint() {
@@ -45,7 +51,7 @@ public:
      */
     string problemToString() {
         string finalProb;
-        string mat = matrix.matToString();
+        string mat = matrix->to_string();
 
         finalProb += mat;
         finalProb += DIVIDER;

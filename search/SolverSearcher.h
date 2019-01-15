@@ -12,17 +12,22 @@
 #include "Matrix.h"
 #include "MatrixSearchProblem.h"
 #include "string.h"
-template <class Type>
-class SolverSearcher : public Solver<MatrixSearchProblem, std::string > {
 
-    //ISearcher<int, POINT, string> searcher = new DFS();
+template<class Type>
+class SolverSearcher : public Solver<MatrixSearchProblem, std::string> {
+
+    ISearcher<int, POINT, string> *searcher;
+
+    SolverSearcher(ISearcher<int, POINT, string> *s) {
+        searcher = s;
+    }
 
     virtual std::string solve(MatrixSearchProblem problem) {
 
-        SearchNode<Type>* startNode = problem.getMatrix().get(problem.getStartPoint());
-        SearchNode<Type>* endNode = problem.getMatrix().get(problem.getEndPoint());
+        SearchNode<Type> *startNode = problem.getMatrix()->get(problem.getStartPoint());
+        SearchNode<Type> *endNode = problem.getMatrix()->get(problem.getEndPoint());
 
-        //return searcher.search(problem.getMatrix(), problem.getStartPoint(), problem.getEndPoint());
+        return searcher->search(problem.getMatrix(), startNode, endNode);
     }
 };
 

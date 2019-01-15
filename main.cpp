@@ -1,6 +1,9 @@
 #include <iostream>
 #include "server_side/MyClientHandler.h"
 #include "Experiment.h"
+#include "cache/FileCacheManager.h"
+#include "server_side/MySerialServer.h"
+#include "problem_solve/StringReverser.h"
 
 using namespace server_side;
 
@@ -23,14 +26,9 @@ int main(int arg, char *argv[]) {
     experiment.addSearchMethod(search);
     experiment.expirience();
     experiment.writeToFile("Graph", "Solutions");
-    delete search;
+   // delete search;
 
-
-
-/*
-    CacheManager *cacheManager = new FileCacheManager("reverse");
-    string sol;
-    string problem;
+    CacheManager *cacheManager = new FileCacheManager("Matrix");
     Solver<string, string> *solver = new StringReverser();
 
     ClientHandler *clientHandler = new MyClientHandler<string, string>(solver, cacheManager);
@@ -45,7 +43,7 @@ int main(int arg, char *argv[]) {
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
-*/
+
     /*
    while (getline(cin, problem)) {
        bool c = x->isSolution(problem);

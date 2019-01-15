@@ -31,6 +31,7 @@ namespace server_side {
             this->solver = solverToSet;
             this->cacheManager = cacheManagerToSet;
         }
+
         //TODO push basic server tech to the father class
         void getSingleMessage(int socketId, char **buffer) {
 
@@ -72,6 +73,7 @@ namespace server_side {
 
         MatrixSearchProblem getSingleSearchRequest(int socketId) {
             //get whole problem
+            MatrixSearchProblem problem;
             vector<string> request = getRequest(socketId);
 
             //get destination point
@@ -83,11 +85,13 @@ namespace server_side {
             //get source point
             POINT src = getPoint(request.back());
 
+            problem.setStartEnd(src, dst);
+
             //remove source point
             request.pop_back();
 
-            //calculate matrix
-            Matrix mat = getMatrix(request);
+            problem.setMatrix(getMatrix(request, new Matrix));
+
 
             //test
             /* cout << "dst value is:" << endl;
@@ -96,7 +100,6 @@ namespace server_side {
              cout << "src value is:" << endl;
              cout << mat.get(src) << endl;*/
 
-            return MatrixSearchProblem(mat, src, dst);
 
         }
 
@@ -135,10 +138,9 @@ namespace server_side {
             return point;
         }
 
-        Matrix getMatrix(vector<string> info) {
-            Matrix mat;
+        ISearchable<int, POINT> *getMatrix(vector<string> info, Matrix *mat) {
             for (string line:info) {
-                mat.addRow(line);
+                mat->addRow(line);
             }
             cout << "matrix inserted: " << endl;
             return mat;
