@@ -38,14 +38,13 @@ public:
         SearchNode<Type>* current = end;
         while(current != start && current != nullptr) {
 
-            str = current->cameFromFirection + ", " + str;
+            str = current->parent->getDicrection(current)+ ", " + str;
             current = current->parent;
-        }
-        if(current != nullptr) {
-            str = current->cameFromFirection + ", " + str;
         }
         return str;
     }
+
+
 
 };
 

@@ -22,7 +22,7 @@ int main(int arg, char *argv[]) {
     Expretiment experiment;
     experiment.buildMatrix("1,2,3$4,5,6$7,8,9", '$');
     POINT* start = new POINT(0,0);
-    POINT* end = new POINT(2,2);
+    POINT* end = new POINT(2,1);
     experiment.addStartEndPoint(*start, *end);
 
 

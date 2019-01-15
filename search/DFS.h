@@ -18,44 +18,59 @@ public:
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
-        std::stack<SearchNode<Type>> stack;
-        stack.push(&start);
+
+        std::stack<SearchNode<Type>*> stack;
+        stack.push(start);
         SearchNode<Type>* current;
+        bool found = false;
 
-        while(!stack.empty()) {
-            current = stack.pop();
+        while(!stack.empty() && !found) {
+            current = stack.top();
+            stack.pop();
 
-            if(current == end) {
+            if (current == end) {
                 break;
             }
-            if(!current->discovered) {
+
+
+            if (!current->discovered) {
                 current->discovered = true;
 
-                 vector<SearchNode<Type>*>* neighbours = searchable->getNeighbours(current);
-                 for(SearchNode<Type>* adj:neighbours) {
+                vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
-                     if (adj == end) {
-                         break;
-                     }
-                     stack.push(&adj);
+                for (SearchNode<Type> *adj:(*neighbours)) {
 
-                 }
+                    if (adj == end) {
+                        found = true;
+                        adj->parent = current;
+                        break;
+                    }
+                    if (!adj->discovered) {
+                        stack.push(adj);
+                        adj->parent = current;
+                    }
+
+
+                }
 
             }
+
+
+            //problem of dfs dtart_end point
+            //start point
+
+            //push to stack
+            //pop
+            //get my neibous
+
         }
 
-        while(!stack.empty()) {
+        while (!stack.empty()) {
             stack.pop();
         }
 
 
-        return getPath(start, end);
-        //problem of dfs dtart_end point
-        //start point
-
-        //push to stack
-        //pop
-        //get my neibous
+        return this->getPath(start, end);
 
     }
 

@@ -17,17 +17,17 @@ public:
         for (const string &line:Utils::split(mat, div)) {
             this->mat.addRow(line);
         }
-
+        this->mat.assignFriends();
     }
 
-    void addStartEndPoint(POINT start, POINT end){
-        SearchNode<int>* startNode = mat.get(start);
-        SearchNode<int>* endNode = mat.get(end);
+    void addStartEndPoint(POINT start, POINT end) {
+        SearchNode<int> *startNode = mat.get(start);
+        SearchNode<int> *endNode = mat.get(end);
 
         //Searcher<int, POINT, string> searcher* = new DFS<int, POINT, string>();
 
-        auto * d = new DFS<int, POINT, string>();
-        d->search(mat, startNode, endNode);
+        auto *d = new DFS<int, POINT, string>();
+       cout << d->search(&mat, startNode, endNode) << endl;
     }
 
 

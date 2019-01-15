@@ -24,7 +24,7 @@ public:
     SearchNode *down;
     SearchNode *right;
     SearchNode *left;
-    DIRECTION cameFromFirection;
+    bool discovered = false;
 
     vector<SearchNode<Type> *> *getFriends() {
         auto *friends = new vector<SearchNode<Type> *>();
@@ -34,6 +34,23 @@ public:
         friends->insert(left);
         return friends;
 
+    }
+
+    string getDicrection(SearchNode<Type>* searchNode) {
+
+        if (this->up!= nullptr && this->up == searchNode) {
+            return "UP";
+        }
+        if (this->down!= nullptr && this->down == searchNode) {
+            return "DOWN";
+        }
+        if (this->right != nullptr && this->right == searchNode) {
+            return "RIGHT";
+        }
+        if (this->left != nullptr && this->left == searchNode) {
+            return "LEFT";
+        }
+        return "";
     }
 
 };
@@ -57,7 +74,6 @@ public:
         res += to_string(y);
         return res;
     }
-
 
 };
 
