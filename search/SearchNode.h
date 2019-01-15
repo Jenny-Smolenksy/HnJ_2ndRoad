@@ -17,8 +17,7 @@ enum DIRECTION {
 template<class Type>
 class SearchNode {
 public:
-    Type *value;
-    double cost;
+    int cost{};
     SearchNode *parent;
     SearchNode *up;
     SearchNode *down;
@@ -26,15 +25,6 @@ public:
     SearchNode *left;
     bool discovered = false;
 
-    vector<SearchNode<Type> *> *getFriends() {
-        auto *friends = new vector<SearchNode<Type> *>();
-        friends->insert(up);
-        friends->insert(down);
-        friends->insert(right);
-        friends->insert(left);
-        return friends;
-
-    }
 
     string getDicrection(SearchNode<Type>* searchNode) {
 

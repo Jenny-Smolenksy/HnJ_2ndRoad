@@ -12,52 +12,53 @@
 #define HNJ_2NDROAD_MATRIX_H
 
 class Matrix : public ISearchable<int, POINT> {
-    vector<vector<SearchNode<int>*>> matrix;
+    vector<vector<SearchNode<int> *>> matrix;
     int colNum;
+    vector<vector<SearchNode<int> *> *> destroy;
 
 public:
     Matrix() {
         colNum = 0;
-
     }
 
     void addRow(string row) {
         if (!row.empty()) {
-            auto *realRow= new vector<SearchNode<int>*>() ;
-            createRow(Utils::split(row, ','),realRow);
+            auto *realRow = new vector<SearchNode<int> *>();
+            createRow(Utils::split(row, ','), realRow);
             colNum = (int) realRow->size();
             matrix.push_back(*realRow);
+            destroy.push_back(realRow);
         }
     }
 
-    void createRow(vector<string> row, vector<SearchNode<int>*> *result) {
+    void createRow(vector<string> row, vector<SearchNode<int> *> *result) {
         for (const string &value:row) {
             int x = atoi(value.data());
-            auto node= new SearchNode<int >();
-            createNode(&x,node);
+            auto node = new SearchNode<int>();
+            createNode(&x, node);
             result->push_back(node);
         }
 
     }
 
     virtual SearchNode<int> *get(POINT searchFor) {
-        if (matrix.empty() || colNum - 1 < searchFor.x || matrix.size() - 1 < searchFor.y || searchFor.x < 0 ||
+        if (matrix.empty() || colNum - 1 < searchFor.y || matrix.size() - 1 < searchFor.x || searchFor.x < 0 ||
             searchFor.y < 0) {
             //matrix is empty || in valid request ||
             return nullptr;
         }
-        if (*(matrix[searchFor.y][searchFor.x]->value) == -1) {
+        if (matrix[searchFor.x][searchFor.y]->cost == -1) {
             return nullptr;
         }
-        return matrix[searchFor.y][searchFor.x];
+        return matrix[searchFor.x][searchFor.y];
     }
 
     virtual vector<SearchNode<int> *> *getNeighbours(SearchNode<int> *searchFor) {
         auto *friends = new vector<SearchNode<int> *>();
-
+        this->destroy.push_back(friends);
         //assign friends (real) the direction they were reached from
         if (searchFor->right != nullptr) {
-          //  searchFor->right->cameFromFirection = RIGHT;
+            //  searchFor->right->cameFromFirection = RIGHT;
             friends->push_back(searchFor->right);
         }
         if (searchFor->left != nullptr) {
@@ -82,21 +83,20 @@ public:
 
     }
 
-    void createNode(int *x,SearchNode<int>*nodeMatrix) {
-        nodeMatrix->value = x;
+    void createNode(int *x, SearchNode<int> *nodeMatrix) {
         nodeMatrix->cost = *x;
         nodeMatrix->parent = NULL;
         nodeMatrix->up = nullptr;
         nodeMatrix->left = nullptr;
         nodeMatrix->right = nullptr;
         nodeMatrix->down = nullptr;
-     
+
 
     }
 
     void assignFriends() {
         int y = 0;
-        for (vector<SearchNode<int>*> v: matrix) {
+        for (vector<SearchNode<int> *> v: matrix) {
             int x = 0;
             for (SearchNode<int> *node:v) {
                 node->up = get(POINT(x, y - 1));
@@ -112,15 +112,37 @@ public:
 
     virtual string matToString() {
         string result;
-        for (vector<SearchNode<int>*> s:matrix) {
+        for (vector<SearchNode<int> *> s:matrix) {
             for (SearchNode<int> *c: s) {
-                int val = *c->value;
-                result += to_string(val);
+                result += to_string(c->cost);
                 result += COMMA;
             }
+            result.pop_back();
             result += ENDLINE;
         }
         return result;
+    }
+
+    void clear() {
+        this->matrix.clear();
+        this->colNum = 0;
+    }
+
+    bool empty() {
+        return matrix.empty();
+    }
+
+    ~Matrix() {
+        for (vector<SearchNode<int> *> v: matrix) {
+            for (SearchNode<int> *node:v) {
+                delete node;
+            }
+            //move to other line
+
+        }
+        for (vector<SearchNode<int> *> *p:destroy) {
+            delete p;
+        }
     }
 
 

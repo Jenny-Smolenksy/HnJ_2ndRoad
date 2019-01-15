@@ -25,9 +25,11 @@ public:
             cost += current->cost;
             current = current->parent;
         }
+
         if (current != start) {
             return -1;
         }
+        cost += current->cost;
         return cost;
     }
 

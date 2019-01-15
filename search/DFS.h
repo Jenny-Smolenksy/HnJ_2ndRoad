@@ -28,6 +28,7 @@ public:
             stack.pop();
 
             if (current == end) {
+                found = true;
                 break;
             }
 
@@ -59,6 +60,7 @@ public:
         while (!stack.empty()) {
             stack.pop();
         }
+
 
         return this->getPathStr(start, end);
     }

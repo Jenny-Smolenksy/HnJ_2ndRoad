@@ -24,6 +24,7 @@ class BFS : public Searcher<Type, SearchType, Solution> {
             current = queue.pop();
 
             if (current == end) {
+                found = true;
                 break;
             }
 
@@ -33,12 +34,13 @@ class BFS : public Searcher<Type, SearchType, Solution> {
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
                 for (SearchNode<Type> *adj:(*neighbours)) {
-
+/*
                     if (adj == end) {
                         found = true;
                         adj->parent = current;
                         break;
                     }
+                    */
                     if (!adj->discovered) {
                         queue.push(adj);
                         adj->parent = current;
