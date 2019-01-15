@@ -7,20 +7,20 @@
 
 #include "ISearcher.h"
 
-template <class Type, class SearchType, class Solution>
-class Searcher : public ISearcher<Type, SearchType, Solution>{
+template<class Type, class SearchType, class Solution>
+class Searcher : public ISearcher<Type, SearchType, Solution> {
 
 public:
 
-    virtual Solution search(ISearchable<Type, SearchType>* searchable,
-                            SearchNode<Type>* start, SearchNode<Type>* end) = 0;
+    virtual Solution search(ISearchable<Type, SearchType> *searchable,
+                            SearchNode<Type> *start, SearchNode<Type> *end) = 0;
 
-    virtual double getPathCost(SearchNode<Type>* start, SearchNode<Type>* end) {
+    virtual double getPathCost(SearchNode<Type> *start, SearchNode<Type> *end) {
 
         double cost = 0;
 
-        SearchNode<Type>* current = end;
-        while(current != start && current != nullptr) {
+        SearchNode<Type> *current = end;
+        while (current != start && current != nullptr) {
 
             cost += current->cost;
             current = current->parent;
@@ -33,17 +33,17 @@ public:
         return cost;
     }
 
-    virtual string getPathStr(SearchNode<Type>* start, SearchNode<Type>* end) {
+    virtual string getPathStr(SearchNode<Type> *start, SearchNode<Type> *end) {
 
-        string str = "";
+        string str;
 
-        SearchNode<Type>* current = end;
+        SearchNode<Type> *current = end;
 
         str = current->parent->getDicrection(current);
         current = current->parent;
-        while(current != start && current != nullptr) {
+        while (current != start && current != nullptr) {
 
-            str = current->parent->getDicrection(current)+ ", " + str;
+            str = current->parent->getDicrection(current) + ", " + str;
             current = current->parent;
         }
         if (current != start) {
@@ -52,12 +52,12 @@ public:
         return str;
     }
 
-    virtual int getPathNodeAmount(SearchNode<Type>* start, SearchNode<Type>* end) {
+    virtual int getPathNodeAmount(SearchNode<Type> *start, SearchNode<Type> *end) {
 
         int count = 0;
 
-        SearchNode<Type>* current = end;
-        while(current != start && current != nullptr) {
+        SearchNode<Type> *current = end;
+        while (current != start && current != nullptr) {
 
             count++;
             current = current->parent;
@@ -67,7 +67,6 @@ public:
         }
         return count;
     }
-
 
 
 };
