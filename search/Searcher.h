@@ -54,13 +54,14 @@ public:
         if (current != start) {
             return "no path";
         }
+        str1  = std::to_string(current->getValue()) + " -> " + str1;
         cout << str1 << endl;
         return str;
     }
 
     virtual int getPathNodeAmount(SearchNode<Type> *start, SearchNode<Type> *end) {
 
-        int count = 0;
+        int count = 1;
 
         SearchNode<Type> *current = end;
         while (current != start && current != nullptr) {

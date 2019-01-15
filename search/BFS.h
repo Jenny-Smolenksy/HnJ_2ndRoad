@@ -13,6 +13,7 @@ class BFS : public Searcher<Type, SearchType, Solution> {
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
+
         queue<SearchNode<Type>*> queue;
 
         queue.push(start);
@@ -21,40 +22,36 @@ class BFS : public Searcher<Type, SearchType, Solution> {
         bool found = false;
 
         while(!queue.empty() && !found) {
-            current = queue.pop();
 
+            current = queue.front();
+            queue.pop();
             if (current == end) {
                 found = true;
                 break;
             }
 
-            if (!current->isDicovered()) {
-                current->setAsDiscovered();
+            vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
-                vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
-
-                for (SearchNode<Type> *adj:(*neighbours)) {
+            for (SearchNode<Type> *adj:(*neighbours)) {
 /*
-                    if (adj == end) {
-                        found = true;
-                        adj->parent = current;
-                        break;
-                    }
-                    */
-                    if (!adj->isDicovered()) {
-                        queue.push(adj);
-                        adj->setParent(current);
-                    }
-
-
+                if (adj == end) {
+                    found = true;
+                    adj->parent = current;
+                    break;
+                }
+                */
+                if (!adj->isDicovered()) {
+                    adj->setAsDiscovered();
+                    queue.push(adj);
+                    adj->parent = (current);
                 }
 
             }
 
         }
 
-        while (!stack.empty()) {
-            stack.pop();
+        while (!queue.empty()) {
+            queue.pop();
         }
 
         return this->getPathStr(start, end);
