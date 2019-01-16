@@ -54,7 +54,7 @@ namespace server_side {
 
             Matrix* matrix;
             /* If connection is established then start communicating */
-            while (true) {
+           // while (true) {
                 try {
 
                         matrix = new Matrix();
@@ -62,8 +62,9 @@ namespace server_side {
 
                         string problem = m.problemToString();
                         Solution solution;
+
                         if (cacheManager->isSolution(problem)) {
-                            //cout << cacheManager->getSolution(problem) << endl;
+                            cout << "found on cache" << endl;
                             solution = cacheManager->getSolution(problem);
                         } else {
 
@@ -94,12 +95,14 @@ namespace server_side {
                             cout << "ERROR writing to socket" << endl;
                         }
 
+                        close(socketId);
+
                 } catch (const char *ex) {
                         delete matrix;
+                        cout << ex << endl;
                         return;
                     }
             }
-        }
 
         MatrixSearchProblem getSingleSearchRequest(int socketId, Matrix *matrix) {
             //get whole problem

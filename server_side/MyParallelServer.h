@@ -12,7 +12,7 @@ namespace server_side {
 
     class MyParallelServer : public AServer {
 
-        queue<pthread_t > threadIdQueue;
+        vector<pthread_t > threadIdVector;
         int countClientsRunning;
         pthread_mutex_t clientsCountMutex;
 

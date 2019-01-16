@@ -10,15 +10,24 @@
 #define DIVIDER '$'
 FileToucher *FileToucher::instance = nullptr;
 
+FileToucher::FileToucher() {
+
+    pthread_mutex_init(&fileAccessMutex, nullptr);
+}
+
 FileToucher *FileToucher::getInstance() {
     if (instance == nullptr) {
         instance = new FileToucher();
-
     }
     return instance;
 }
 
+
 string FileToucher::getByKey(string fileName, string key) {
+
+    //lock mutual resource
+    pthread_mutex_lock(&fileAccessMutex);
+
     ifstream fin;
     fin.open(fileName);
     string line;
@@ -28,22 +37,35 @@ string FileToucher::getByKey(string fileName, string key) {
             splited = Utils::split(line, DIVIDER);
             if (isSame(splited[0], key)) {
                 fin.close();
+                //release lock
+                pthread_mutex_unlock(&fileAccessMutex);
                 //found the key problem return its sol
                 return splited[1];
             }
         }
         fin.close();
     }
+    //release lock
+    pthread_mutex_unlock(&fileAccessMutex);
     throw "key does not exist in cache! check for existence first";
 }
 
 void FileToucher::writeToFile(string fileName, string SolFormat, string ProbFormat) {
+    //lock mutual resource
+    pthread_mutex_lock(&fileAccessMutex);
+
     ofstream eFile;
     eFile.open(fileName, ios::out | ios::app | ios::ate);
-    if (!eFile.is_open())
+    if (!eFile.is_open()) {
+        //release lock
+        pthread_mutex_unlock(&fileAccessMutex);
         throw "cant open file";
+    }
     eFile << ProbFormat << DIVIDER << SolFormat << "\n";
     eFile.close();
+
+    //release lock
+    pthread_mutex_unlock(&fileAccessMutex);
 }
 
 bool FileToucher::isSame(string key, string line) {
@@ -59,12 +81,22 @@ bool FileToucher::isSame(string key, string line) {
 }
 
 void FileToucher::writeSimple(string file, string to_write) {
+
+    //lock mutual resource
+    pthread_mutex_lock(&fileAccessMutex);
+
     ofstream eFile;
     eFile.open(file, ios::out | ios::app | ios::ate);
-    if (!eFile.is_open())
+    if (!eFile.is_open()) {
+        //release lock
+        pthread_mutex_unlock(&fileAccessMutex);
         throw "cant open file";
+    }
     eFile << to_write << "\n";
     eFile.close();
+
+    //release lock
+    pthread_mutex_unlock(&fileAccessMutex);
 }
 
 FileToucher::~FileToucher() {

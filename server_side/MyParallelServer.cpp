@@ -17,6 +17,7 @@ void* threadListen(void* arg) {
     } catch (const char* ex) {
         cout << ex;
     }
+
 }
 
 void* threadFuncClientListen(void* arg) {
@@ -36,6 +37,8 @@ void* threadFuncClientListen(void* arg) {
         cout << ex;
         params->parallelServer->removeClientRunning();
     }
+
+    delete params;
 }
 
 void MyParallelServer::open(int port, ClientHandler* clientHandler) {
@@ -46,27 +49,19 @@ void MyParallelServer::open(int port, ClientHandler* clientHandler) {
 
     pthread_create(&threadRunningId, nullptr, threadListen, this);
 
-    //pthread_join(threadRunningId, nullptr);
-
-    while(!this->threadIdQueue.empty()) {
-
-        pthread_t currentThreadId = threadIdQueue.front();
-        pthread_join(currentThreadId, nullptr);
-    }
-
     pthread_join(threadRunningId, nullptr);
-    //close socket
-    close(sockfd);
+
+
 }
 
 void MyParallelServer::listenToClient(int socketId) {
 
-    auto * params =
+    CLIENT_LISTEN_PARAMS * params =
             new CLIENT_LISTEN_PARAMS{this->clientHandler, socketId, this};
 
     pthread_t threadId;
-    this->threadIdQueue.push(threadId);
     pthread_create(&threadId, nullptr, threadFuncClientListen, params);
+    this->threadIdVector.push_back(threadId);
 }
 
 MyParallelServer::~MyParallelServer() {
@@ -98,12 +93,10 @@ void MyParallelServer::parallellListen() {
         clientSocket = waitForConnection();
 
         if (clientSocket == -1) {
-            //timeout
-           if(this->getIsClientRunning()) {
-               //cout << "other clients running";
-           } else {
-               flag = false;
-           }
+
+            flag = false;
+            stop();
+
            continue;
         }
 
@@ -138,16 +131,15 @@ void MyParallelServer::stop() {
 
     pthread_t pthreadIdClose;
 
-    pthread_create(&pthreadIdClose, nullptr, threadFuncStop, this);
-    pthread_join(pthreadIdClose, nullptr);
+  //  pthread_create(&pthreadIdClose, nullptr, threadFuncStop, this);
+  //  pthread_join(pthreadIdClose, nullptr);
 
-    while(!this->threadIdQueue.empty()) {
+   for(auto thread :this->threadIdVector) {
 
-        pthread_t currentThreadId = threadIdQueue.front();
-        pthread_join(currentThreadId, nullptr);
-    }
+       pthread_join(thread, nullptr);
+   }
 
-    pthread_join(threadRunningId, nullptr);
+    threadIdVector.clear();
 
     //close socket
     close(sockfd);
@@ -155,6 +147,7 @@ void MyParallelServer::stop() {
 
 
 MyParallelServer::MyParallelServer() {
+    this->clientHandler = nullptr;
     this->countClientsRunning = 0;
     pthread_mutex_init(&clientsCountMutex, nullptr);
 }
@@ -178,6 +171,7 @@ void MyParallelServer::addClientRunning() {
     pthread_mutex_lock(&clientsCountMutex);
 
     this->countClientsRunning++;
+    cout << "count to clients: " << countClientsRunning << endl;
     //release lock
     pthread_mutex_unlock(&clientsCountMutex);
 
@@ -187,6 +181,7 @@ void MyParallelServer::removeClientRunning() {
     pthread_mutex_lock(&clientsCountMutex);
 
     this->countClientsRunning--;
+    cout << "count to clients: " << countClientsRunning << endl;
     //release lock
     pthread_mutex_unlock(&clientsCountMutex);
 }

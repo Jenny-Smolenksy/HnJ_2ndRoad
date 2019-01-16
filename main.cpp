@@ -8,6 +8,7 @@
 #include "search/BestFirstSearch.h"
 #include "server_side/MyParallelServer.h"
 #include "server_side/MyTestClientHandler.h"
+#include "search/BFS.h"
 
 using namespace server_side;
 
@@ -34,7 +35,7 @@ int main(int arg, char *argv[]) {
     // delete search;
 */
     CacheManager *cacheManager = new FileCacheManager("Matrix");
-    auto search = new DFS<int, POINT, string>();
+    auto search = new BFS<int, POINT, string>();
     Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int>(search);
 
     ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);

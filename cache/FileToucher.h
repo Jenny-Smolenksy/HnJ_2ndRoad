@@ -12,7 +12,8 @@ using namespace std;
 class FileToucher {
     static FileToucher *instance;
 
-    FileToucher() = default;
+    pthread_mutex_t fileAccessMutex;
+    FileToucher();
 
 public:
     static FileToucher *getInstance();

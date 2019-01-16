@@ -25,10 +25,6 @@ void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
     pthread_create(&threadRunningId, nullptr, threadFuncListen, this);
 
-    pthread_join(threadRunningId, nullptr);
-
-    //close socket
-    close(sockfd);
 
 }
 
@@ -79,6 +75,14 @@ void MySerialServer::serialListen() {
     }
 
     cout << "time out caused server stop listening";
+}
+
+void MySerialServer::stop() {
+
+    pthread_join(threadRunningId, nullptr);
+
+    //close socket
+    close(sockfd);
 }
 
 void MySerialServer::listenToClient(int socketId) {

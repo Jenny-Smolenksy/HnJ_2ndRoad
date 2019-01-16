@@ -13,6 +13,8 @@ namespace server_side {
 
         virtual void open(int port, ClientHandler* clientHandler);
 
+        virtual void stop();
+
         ~MySerialServer();
     };
 }
