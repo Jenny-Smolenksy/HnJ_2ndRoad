@@ -7,21 +7,24 @@
 
 namespace server_side {
 
-
     template<class Problem, class Solution>
     class MyTestClientHandler : public ClientHandler {
 
         Solver<Problem, Solution> *solver;
         CacheManager *cacheManager;
 
-
     public:
+        //create new handler
         MyTestClientHandler(Solver<Problem, Solution> *solverToSet,
                             CacheManager *cacheManagerToSet) {
             this->solver = solverToSet;
             this->cacheManager = cacheManagerToSet;
         }
 
+        /**
+         * handle a given socket
+         * @param socketId
+         */
         virtual void handleClient(int socketId) {
             char buffer[BUFFER_SIZE];
             char response[BUFFER_SIZE];
@@ -61,6 +64,11 @@ namespace server_side {
         }
 
 
+        /**
+         * handle singel message
+         * @param inputStream
+         * @param outputStream answer to client
+         */
         virtual void handleMessage(char *inputStream, char **outputStream) {
             //if problem not string convert it here
             string prob = inputStream;
@@ -69,21 +77,27 @@ namespace server_side {
               }
               Problem problem = inputStream;
               Solution result;
+              //check on cache
               if (this->cacheManager->isSolution(prob)) {
                   result = this->cacheManager->getSolution(prob);
                   cout << "found on cache";
               } else {
+                  //solve
                   result = this->solver->solve(prob);
                   this->cacheManager->saveSolution(prob, result);
                   cout << "solver job";
               }
 
+              //get solution
               string s = result;
               //if solution not string convert it here to string
               strcpy(*outputStream, s.c_str());
 
         }
 
+        /**
+         * free space
+         */
         ~MyTestClientHandler() {
             solver = nullptr;
             cacheManager = nullptr;

@@ -6,6 +6,11 @@ using namespace server_side;
 
 #include "MyParallelServer.h"
 
+/**
+ * listen thread
+ * @param arg
+ * @return
+ */
 void* threadListen(void* arg) {
 
     auto * params = (MyParallelServer*)arg;
@@ -13,47 +18,46 @@ void* threadListen(void* arg) {
         params->parallellListen();
     } catch (invalid_argument& e) {
         cout << "server disconnected" << endl;
-        //  throw "server disconnected";
     } catch (const char* ex) {
         cout << ex;
     }
 
 }
-
+/**
+ * listen to client thread funciton
+ * @param arg
+ * @return
+ */
 void* threadFuncClientListen(void* arg) {
 
     auto * params = (CLIENT_LISTEN_PARAMS*)arg;
-    try {
-        params->parallelServer->addClientRunning();
-        params->clientHandler->handleClient(params->socketId);
-        params->parallelServer->removeClientRunning();
 
-    } catch (invalid_argument& e) {
-        // cout << "server disconnected" << endl;
-        //  throw "server disconnected";
-
-        params->parallelServer->removeClientRunning();
-    } catch (const char* ex) {
-        cout << ex;
-        params->parallelServer->removeClientRunning();
-    }
+    params->clientHandler->handleClient(params->socketId);
 
     delete params;
 }
-
+/**
+ * open socket on give port
+ * @param port
+ * @param clientHandler
+ */
 void MyParallelServer::open(int port, ClientHandler* clientHandler) {
 
     this->clientHandler = clientHandler;
 
     createSocket(port, DEFAULT_TIME_PER_SEC);
 
-    pthread_create(&threadRunningId, nullptr, threadListen, this);
+    //create thread opening socket
+   // pthread_create(&threadRunningId, nullptr, threadListen, this);
 
-    pthread_join(threadRunningId, nullptr);
-
-
+   parallellListen();
+    //wait for the thread
+   // pthread_join(threadRunningId, nullptr);
 }
-
+/**
+ * listen to client on given socket
+ * @param socketId
+ */
 void MyParallelServer::listenToClient(int socketId) {
 
     CLIENT_LISTEN_PARAMS * params =
@@ -63,7 +67,9 @@ void MyParallelServer::listenToClient(int socketId) {
     pthread_create(&threadId, nullptr, threadFuncClientListen, params);
     this->threadIdVector.push_back(threadId);
 }
-
+/**
+ * free allocated space
+ */
 MyParallelServer::~MyParallelServer() {
 
     try {
@@ -72,26 +78,30 @@ MyParallelServer::~MyParallelServer() {
     catch (const char* c) {}
     clientHandler = nullptr;
 }
-
+/**
+ * listen parallel to clients
+ */
 void MyParallelServer::parallellListen() {
     int clientSocket;
     bool flag = true;
 
-
     timeval timeout;
     //time out only for clients after the first
-    timeout.tv_sec = 10;
+    timeout.tv_sec = TIMEOUT;
     timeout.tv_usec = 0;
 
     timeval timeOutMessage;
-    timeOutMessage.tv_sec = 100000000;
+    timeOutMessage.tv_sec = MESSAGE_TIMEOUT;
     timeOutMessage.tv_usec = 0;
 
 
+    //while to closed
     while (flag) {
 
+        //wait for client
         clientSocket = waitForConnection();
 
+        //if time out or wrong input
         if (clientSocket == -1) {
 
             flag = false;
@@ -100,33 +110,29 @@ void MyParallelServer::parallellListen() {
            continue;
         }
 
-        setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOutMessage, sizeof(timeOutMessage));
-        cout << "new client" << endl;
-        listenToClient(clientSocket);
-
-        //check if server requested to close
-        pthread_mutex_lock(&serverRunningMutex);
-        if (!running) {
-            //release lock
-            pthread_mutex_unlock(&serverRunningMutex);
-            flag = false;
+        //setting timeout
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout)) == -1) {
+            perror("ERROR on setting timeout");
         }
-        //release lock
-        pthread_mutex_unlock(&serverRunningMutex);
 
-        setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
-
+        listenToClient(clientSocket);
     }
 
     cout << "time out caused server stop listening";
 }
-
+/**
+ * function thread to stop server
+ * @param arg
+ * @return
+ */
 void* threadFuncStop(void* arg) {
 
     AServer* aServer = (AServer*)arg;
     aServer->closeServer();
 }
-
+/**
+ * stop server by request
+ */
 void MyParallelServer::stop() {
 
     pthread_t pthreadIdClose;
@@ -145,44 +151,11 @@ void MyParallelServer::stop() {
     close(sockfd);
 }
 
-
+/**
+ * free alocated space
+ */
 MyParallelServer::MyParallelServer() {
     this->clientHandler = nullptr;
     this->countClientsRunning = 0;
-    pthread_mutex_init(&clientsCountMutex, nullptr);
-}
-
-bool MyParallelServer::getIsClientRunning() {
-
-    bool result = true;
-
-    pthread_mutex_lock(&clientsCountMutex);
-
-    if (this->countClientsRunning == 0) {
-        result = false;
-    }
-    //release lock
-    pthread_mutex_unlock(&clientsCountMutex);
-
-    return result;
-}
-
-void MyParallelServer::addClientRunning() {
-    pthread_mutex_lock(&clientsCountMutex);
-
-    this->countClientsRunning++;
-    cout << "count to clients: " << countClientsRunning << endl;
-    //release lock
-    pthread_mutex_unlock(&clientsCountMutex);
-
-}
-
-void MyParallelServer::removeClientRunning() {
-    pthread_mutex_lock(&clientsCountMutex);
-
-    this->countClientsRunning--;
-    cout << "count to clients: " << countClientsRunning << endl;
-    //release lock
-    pthread_mutex_unlock(&clientsCountMutex);
 }
 

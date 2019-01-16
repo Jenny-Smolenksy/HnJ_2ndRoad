@@ -14,7 +14,6 @@ namespace server_side {
 
         vector<pthread_t > threadIdVector;
         int countClientsRunning;
-        pthread_mutex_t clientsCountMutex;
 
     public:
 
@@ -28,14 +27,8 @@ namespace server_side {
 
         void stop() override;
 
-
-        void addClientRunning();
-
-        void removeClientRunning();
-
-        bool getIsClientRunning();
-
         ~MyParallelServer();
+
     };
 
 

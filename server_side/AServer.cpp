@@ -1,6 +1,10 @@
 #include "AServer.h"
 using namespace server_side;
-
+/**
+ * create soket on given port
+ * @param portNumber
+ * @param timesPerSec
+ */
 void AServer::createSocket(int portNumber, int timesPerSec) {
     struct sockaddr_in serv_addr = {};
 
@@ -29,7 +33,10 @@ void AServer::createSocket(int portNumber, int timesPerSec) {
     pthread_mutex_init(&serverRunningMutex, nullptr);
     cout << "server starting.." << endl;
 }
-
+/**
+ * waiting for cleint to connect
+ * @return
+ */
 int AServer::waitForConnection() {
     int currentSocketFd, clilen;
     struct sockaddr_in cli_addr = {};
@@ -62,21 +69,29 @@ int AServer::waitForConnection() {
     cout << "client connected" << endl;
     return currentSocketFd;
 }
-
+/**
+ * function to stop listen
+ * @param arg
+ * @return
+ */
 void* threadFuncStopListen(void* arg) {
 
     AServer* aServer = (AServer*)arg;
     aServer->closeServer();
 }
 
-
+/**
+ * close server
+ */
 void AServer::closeServer() {
     pthread_mutex_lock(&serverRunningMutex);
     running = false;
     //release lock
     pthread_mutex_unlock(&serverRunningMutex);
 }
-
+/**
+ * stop server
+ */
 void AServer::stop() {
 
     pthread_t pthreadIdClose;

@@ -3,6 +3,11 @@
 #include "string.h"
 using namespace server_side;
 
+/**
+ * listen thread function
+ * @param arg
+ * @return
+ */
 void* threadFuncListen(void* arg) {
 
     MySerialServer* params = (MySerialServer*)arg;
@@ -16,7 +21,11 @@ void* threadFuncListen(void* arg) {
     }
 }
 
-
+/**
+ * open server on given port
+ * @param port
+ * @param clientHandler
+ */
 void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
     this->clientHandler = clientHandler;
@@ -25,10 +34,15 @@ void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
     pthread_create(&threadRunningId, nullptr, threadFuncListen, this);
 
+    pthread_join(threadRunningId, nullptr);
 
+    //close socket
+    close(sockfd);
 }
 
-
+/**
+ * listen to clients one by one
+ */
 void MySerialServer::serialListen() {
 
     int clientSocket;
@@ -37,24 +51,28 @@ void MySerialServer::serialListen() {
 
     timeval timeout;
     //time out only for clients after the first
-    timeout.tv_sec = 1;
+    timeout.tv_sec = TIMEOUT;
     timeout.tv_usec = 0;
 
     timeval timeOutMessage;
-    timeOutMessage.tv_sec = 100000000;
+    timeOutMessage.tv_sec = MESSAGE_TIMEOUT;
     timeOutMessage.tv_usec = 0;
 
 
     while (flag) {
 
+        //wait for connection
         clientSocket = waitForConnection();
 
+        //if time out
         if (clientSocket == -1) {
             flag = false;
             break;
         }
 
-        setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOutMessage, sizeof(timeOutMessage));
+        //set timeout for client
+        setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO,
+                (char *)&timeOutMessage, sizeof(timeOutMessage));
         listenToClient(clientSocket);
 
         cout << "client disconnected" << endl;
@@ -69,14 +87,16 @@ void MySerialServer::serialListen() {
         //release lock
         pthread_mutex_unlock(&serverRunningMutex);
 
-
+        //set time out for next client
         setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
 
     }
 
     cout << "time out caused server stop listening";
 }
-
+/**
+ * stop server
+ */
 void MySerialServer::stop() {
 
     pthread_join(threadRunningId, nullptr);
@@ -84,12 +104,18 @@ void MySerialServer::stop() {
     //close socket
     close(sockfd);
 }
-
+/**
+ * listen to a given client
+ * @param socketId
+ */
 void MySerialServer::listenToClient(int socketId) {
     clientHandler->handleClient(socketId);
     close(socketId);
 }
-
+/**
+ * free space
+ */
 MySerialServer::~MySerialServer() {
     clientHandler = nullptr;
 }
+

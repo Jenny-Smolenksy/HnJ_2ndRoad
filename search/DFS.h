@@ -15,6 +15,13 @@ class DFS : public Searcher <Type, SearchType, Solution>{
 
 public:
 
+    /**
+     * search according to dfs algorithm
+     * @param searchable
+     * @param start
+     * @param end
+     * @return
+     */
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
@@ -45,6 +52,7 @@ public:
 
                 vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
+                //go over adjecens
                 for (SearchNode<Type> *adj:(*neighbours)) {
 
                     if(!adj->isVisited()) {

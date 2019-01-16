@@ -17,6 +17,8 @@
 #ifndef HNJ_2NDROAD_ASERVER_H
 #define HNJ_2NDROAD_ASERVER_H
 
+#define MESSAGE_TIMEOUT 100000000
+#define TIMEOUT 1
 
 namespace server_side {
 

@@ -13,6 +13,11 @@ using namespace std;
 
 class StringReverser : public Solver<string, string> {
 public:
+    /**
+     * solve, reverse given string
+     * @param p
+     * @return
+     */
     string solve(string p) override {
         string result;
         for (auto c : p) {

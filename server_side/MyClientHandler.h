@@ -15,8 +15,6 @@
 
 namespace server_side {
 
-
-
     template<class Problem, class Solution>
     class MyClientHandler : public ClientHandler {
 
@@ -24,12 +22,23 @@ namespace server_side {
         CacheManager *cacheManager;
 
     public:
-        MyClientHandler(Solver<Problem, Solution> *solverToSet, CacheManager *cacheManagerToSet) {
+        /**
+         * constractor crreate new client handle object
+         * @param solverToSet
+         * @param cacheManagerToSet
+         */
+        MyClientHandler(Solver<Problem, Solution> *solverToSet,
+                CacheManager *cacheManagerToSet) {
             this->solver = solverToSet;
             this->cacheManager = cacheManagerToSet;
         }
 
 
+        /**
+         * get one buffer message
+         * @param socketId
+         * @param buffer
+         */
         void getSingleMessage(int socketId, char **buffer) {
 
             int n;
@@ -45,57 +54,56 @@ namespace server_side {
 
         }
 
+        /**
+         * handle an open socket
+         * @param socketId
+         */
         void handleClient(int socketId) override {
             int n;
             char response[BUFFER_SIZE];
+            //check wrong input
             if (socketId == -1) {
                 return; //nothing to listen to
             }
-
             Matrix* matrix;
-            /* If connection is established then start communicating */
-           // while (true) {
                 try {
 
-                        matrix = new Matrix();
-                        MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
+                    matrix = new Matrix();
+                    //create matrix by given message
+                    MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
 
-                        string problem = m.problemToString();
-                        Solution solution;
+                    string problem = m.problemToString();
+                    Solution solution;
 
-                        if (cacheManager->isSolution(problem)) {
-                            cout << "found on cache" << endl;
-                            solution = cacheManager->getSolution(problem);
-                        } else {
+                    //check if solution in cache manager
+                    if (cacheManager->isSolution(problem)) {
+                        cout << "found on cache" << endl;
+                        solution = cacheManager->getSolution(problem);
+                    } else {
+                        //solve
+                        solution = solver->solve(m);
+                        cacheManager->saveSolution(problem, solution);
+                    }
+                    //create stream to resend with solution
+                    std::ostringstream stream;
+                    stream << solution;
+                    string solutionStr = stream.str();
 
-                            solution = solver->solve(m);
-                            cacheManager->saveSolution(problem, solution);
-                        }
-                        std::ostringstream stream;
-                        stream << solution;
+                    cout << "solution: " << endl;
+                    cout << solutionStr << endl;
+                    int resultCode;
+                    size_t len = solutionStr.length();
+                    strcpy(response, solutionStr.c_str());
 
-                        string solutionStr = stream.str();
+                    delete matrix;
 
+                    resultCode = (int) send(socketId, response, len, 0);
+                    //check message sent
+                    if (resultCode < ZERO) {
+                        cout << "ERROR writing to socket" << endl;
+                    }
 
-                        cout << "solution: " << endl;
-                        cout << solutionStr << endl;
-                        //write response to client - check this please
-                        int resultCode;
-                        size_t len = solutionStr.length();
-                        strcpy(response, solutionStr.c_str());
-
-                        delete matrix;
-
-                        //TODO get messege right - not working
-                        resultCode = (int) send(socketId, response, len, 0);
-
-
-                        //check message sent
-                        if (resultCode < ZERO) {
-                            cout << "ERROR writing to socket" << endl;
-                        }
-
-                        close(socketId);
+                    close(socketId);
 
                 } catch (const char *ex) {
                         delete matrix;
@@ -104,6 +112,12 @@ namespace server_side {
                     }
             }
 
+            /**
+             * one search reest deal
+             * @param socketId
+             * @param matrix
+             * @return
+             */
         MatrixSearchProblem getSingleSearchRequest(int socketId, Matrix *matrix) {
             //get whole problem
             MatrixSearchProblem problem;
@@ -128,6 +142,11 @@ namespace server_side {
 
         }
 
+        /**
+         * get request from client
+         * @param socketId
+         * @return
+         */
         vector<string> getRequest(int socketId) {
             bool isEndRequest = false;
             char buffer[BUFFER_SIZE];
@@ -148,30 +167,42 @@ namespace server_side {
                 }
 
             }
-            cout << "got whole request " << endl;
+            //cout << "got whole request " << endl;
             return request;
 
         }
 
+        /**
+         * parse data to point
+         * @param data
+         * @return
+         */
         POINT getPoint(string data) {
             vector<string> info = Utils::split(move(data), ',');
             POINT point;
             point.x = atoi(info[0].data());
             point.y = atoi(info[1].data());
 
-            cout << "point " + data + " inserted" << endl;
+            //cout << "point " + data + " inserted" << endl;
             return point;
         }
 
+        /**
+         * create problem by request
+         * @param info
+         * @param mat
+         * @return
+         */
         ISearchable<int, POINT> *getMatrix(vector<string> info, Matrix *mat) {
             for (string line:info) {
                 mat->addRow(line);
             }
-            cout << "matrix inserted: " << endl;
+            //cout << "matrix inserted: " << endl;
             return mat;
         }
 
 
+        //free object
         ~MyClientHandler() {
             solver = nullptr;
             cacheManager = nullptr;

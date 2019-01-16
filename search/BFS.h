@@ -10,6 +10,13 @@
 
 template <class Type, class SearchType, class Solution>
 class BFS : public Searcher<Type, SearchType, Solution> {
+    /**
+     * search by bfs algorithm
+     * @param searchable
+     * @param start
+     * @param end
+     * @return
+     */
     virtual Solution search(ISearchable<Type, SearchType>* searchable,
                             SearchNode<Type>* start, SearchNode<Type>* end) {
 
@@ -23,6 +30,7 @@ class BFS : public Searcher<Type, SearchType, Solution> {
         SearchNode<Type>* current;
         bool found = false;
 
+        //check founf or empty queue
         while(!queue.empty() && !found) {
 
             current = queue.front();
@@ -40,6 +48,7 @@ class BFS : public Searcher<Type, SearchType, Solution> {
 
             vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
+            //go over ajeces
             for (SearchNode<Type> *adj:(*neighbours)) {
 /*
                 if (adj == end) {
