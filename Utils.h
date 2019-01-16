@@ -12,8 +12,19 @@ using namespace std;
 
 class Utils {
 public:
+    /**
+     * split string according to specific char
+     * @param info
+     * @param c
+     * @return
+     */
     static vector<string> split(string info,char c);
 
+    /**
+     * split string to lines
+     * @param info
+     * @return
+     */
     static vector<string> splitbyEndl(string info);
 
 };

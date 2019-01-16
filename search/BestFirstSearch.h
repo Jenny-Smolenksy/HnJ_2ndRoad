@@ -11,6 +11,10 @@
 #include "queue"
 #include <string>
 
+/**
+ * compare class
+ * @tparam Type
+ */
 template<class Type>
 class Compare {
 public:
@@ -19,8 +23,15 @@ public:
     }
 };
 
+/**
+ * Best First Search algorithem
+ * @tparam Type
+ * @tparam SearchType
+ * @tparam Solution
+ */
 template<class Type, class SearchType, class Solution>
 class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
+
     virtual Solution search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
         priority_queue < SearchNode<Type> * , vector<SearchNode<Type> *>, Compare<Type>>
@@ -47,10 +58,12 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
             for (SearchNode<Type> *adj:(*neighbours)) {
                 this->updateCount(adj);
                 if (adj->parent == nullptr) {
+                    //if not connected already connect
                     adj->parent = current;
                     priority_queue1.push(adj);
                 }
                 if (adj == endNode) {
+                    //found it !
                     found = true;
                     adj->parent = (current);
                     break;
@@ -60,7 +73,7 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
         return this->getPathStr(start, endNode);
     }
 
-  
+
 
 
 };

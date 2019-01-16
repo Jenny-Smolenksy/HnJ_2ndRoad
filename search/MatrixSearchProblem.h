@@ -12,7 +12,9 @@ struct START_END_POINT {
     POINT start;
     POINT endp;
 };
-
+/**
+ * matrix search problem class
+ */
 class MatrixSearchProblem {
 
     ISearchable<int, POINT> *matrix;
@@ -21,25 +23,46 @@ class MatrixSearchProblem {
 public:
     MatrixSearchProblem() = default;
 
+    /**
+     * get matrix problem
+     * @return
+     */
     ISearchable<int, POINT> *getMatrix() {
         return matrix;
     }
 
+    /**
+     * set matrix
+     * @param mat
+     */
     void setMatrix(ISearchable<int, POINT> *mat) {
         mat->assignFriends();
         matrix = mat;
 
     }
 
+    /**
+     * set start end
+     * @param src
+     * @param dst
+     */
     void setStartEnd(POINT src, POINT dst){
         startEndPoint.start = src;
         startEndPoint.endp = dst;
     }
 
+    /**
+     * get start point
+     * @return
+     */
     POINT getStartPoint() {
         return startEndPoint.start;
     }
 
+    /**
+     * get end point
+     * @return
+     */
     POINT getEndPoint() {
         return startEndPoint.endp;
     }

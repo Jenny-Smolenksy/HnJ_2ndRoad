@@ -10,17 +10,18 @@
 #include "vector"
 
 using namespace std;
-enum DIRECTION {
-    UP, DOWN, RIGHT, LEFT
-};
 
+/**
+ * searchNode class
+ * @tparam Type
+ */
 template<class Type>
 class SearchNode {
 
     bool discovered = false;
     Type value;
-    double cost;
-    bool visited;
+    double cost{};
+    bool visited{};
 
 public:
 
@@ -30,11 +31,19 @@ public:
     SearchNode *right;
     SearchNode *left;
 
+    /**
+     * constructor
+     */
     SearchNode<Type>(){
         this->discovered = false;
         this->visited = false;
     }
 
+    /**
+     * get direction
+     * @param searchNode
+     * @return
+     */
     string getDicrection(SearchNode<Type>* searchNode) {
 
         if (this->up!= nullptr && this->up == searchNode) {
@@ -52,10 +61,16 @@ public:
         return "";
     }
 
+    /**
+     * set As Discovered
+     */
     void setAsDiscovered() {
         this->discovered = true;
     }
 
+    /**
+     * check if Discovered
+     */
     bool isDicovered() {
         return this->discovered;
     }
@@ -76,30 +91,56 @@ public:
         return (this->left == nullptr);
     }
 
+    /**
+     * set value
+     * @param value
+     */
     void setValue(Type value){
         this->value = value;
     }
 
+    /**
+     * get value
+     * @return
+     */
     Type getValue(){
         return this->value;
     }
 
+    /**
+     * set cost
+     * @param cost
+     */
     void setCost(double cost){
         this->cost = cost;
     }
 
+    /**
+     * get cost
+     * @return
+     */
     double getCost(){
         return this->cost;
     }
 
+    /**
+     * check if visitied
+     * @return
+     */
     bool isVisited() {
         return this->visited;
     }
 
+    /**
+     * visit
+     */
     void visit() {
         this->visited = true;
     }
 
+    /**
+     * initial a node
+     */
     void inital(){
         this->discovered = false;
         this->visited = false;
@@ -108,7 +149,9 @@ public:
 
 
 };
-
+/**
+ * point class
+ */
 class POINT {
 public:
     int x;

@@ -24,25 +24,6 @@ int main(int arg, char *argv[]) {
 
     int portNumber = atoi(argv[1]);
 
-    /*   Expretiment experiment;
-       vector<Searcher<int,POINT,string>*> searchers;
-       searchers.push_back(new BestFirstSearch<int, POINT, string>());
-       searchers.push_back(new DFS<int, POINT, string>());
-       searchers.push_back(new BFS<int, POINT, string>());
-       searchers.push_back(new AStar<int, POINT, string>());
-       int x=1;
-       while (x<=10){
-           experiment.generateMatrix(20+x*3);
-           experiment.writeMatToFile("graphs.txt");
-           for(auto search:searchers){
-               experiment.addSearchMethod(search);
-               experiment.expirience();
-               experiment.writeSolToFile("solutions.txt");
-           }
-           x++;
-
-       }*/
-
 
     auto search = new AStar<int, POINT, string>;
     // delete search;
