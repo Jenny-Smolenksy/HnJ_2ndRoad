@@ -1,4 +1,3 @@
-
 #include "ISearchable.h"
 #include "MatrixSearchProblem.h"
 #include "vector"
@@ -10,7 +9,9 @@
 
 #ifndef HNJ_2NDROAD_MATRIX_H
 #define HNJ_2NDROAD_MATRIX_H
-
+/**
+ * matrix class to arrange data
+ */
 class Matrix : public ISearchable<int, POINT> {
     vector<vector<SearchNode<int> *>> matrix;
     int colNum;
@@ -172,6 +173,15 @@ public:
         return result;
     }
 
+    void initial(){
+         for (vector<SearchNode<int> *> v: matrix) {
+            for (SearchNode<int> *node:v) {
+                node->inital();
+            }
+            //move to other line
+
+        }
+    }
     ~Matrix() {
         for (vector<SearchNode<int> *> v: matrix) {
             for (SearchNode<int> *node:v) {

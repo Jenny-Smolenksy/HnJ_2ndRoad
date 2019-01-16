@@ -1,13 +1,13 @@
 #include <iostream>
-#include "server_side/MyClientHandler.h"
 #include "Experiment.h"
-#include "cache/FileCacheManager.h"
-#include "server_side/MySerialServer.h"
-#include "problem_solve/StringReverser.h"
-#include "search/SolverSearcher.h"
-#include "search/BestFirstSearch.h"
 #include "search/AStar.h"
-#include "search/BFS.h"
+#include "server_side/AServer.h"
+#include "cache/CacheManager.h"
+#include "cache/FileCacheManager.h"
+#include "server_side/MyClientHandler.h"
+#include "problem_solve/Solver.h"
+#include "server_side/MySerialServer.h"
+#include "search/SolverSearcher.h"
 
 using namespace server_side;
 
@@ -22,18 +22,31 @@ int main(int arg, char *argv[]) {
 
     int portNumber = atoi(argv[1]);
 
-    Expretiment experiment;
+    /*   Expretiment experiment;
+       vector<Searcher<int,POINT,string>*> searchers;
+       searchers.push_back(new BestFirstSearch<int, POINT, string>());
+       searchers.push_back(new DFS<int, POINT, string>());
+       searchers.push_back(new BFS<int, POINT, string>());
+       searchers.push_back(new AStar<int, POINT, string>());
+       int x=1;
+       while (x<=10){
+           experiment.generateMatrix(20+x*3);
+           experiment.writeMatToFile("graphs.txt");
+           for(auto search:searchers){
+               experiment.addSearchMethod(search);
+               experiment.expirience();
+               experiment.writeSolToFile("solutions.txt");
+           }
+           x++;
 
-     experiment.buildMatrix("1,3,3,3,3$2,1,3,3,3$2,2,1,3,3$2,2,2,1,3$2,2,2,2,1", '$');
-  //  experiment.generateMatrix(10);
-    auto search = new AStar<int, POINT, string>();
-    experiment.addSearchMethod(search);
-    experiment.expirience();
-    experiment.writeToFile("formatg", "Solutions");
+       }*/
+
+
+    auto search = new AStar<int, POINT, string>;
     // delete search;
 
     CacheManager *cacheManager = new FileCacheManager("Matrix");
-    Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int >(search);
+    Solver <MatrixSearchProblem, string> *solver = new SolverSearcher<int>(search);
 
     ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);
     Server *server;
@@ -47,7 +60,6 @@ int main(int arg, char *argv[]) {
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
-
 
 
     return 0;

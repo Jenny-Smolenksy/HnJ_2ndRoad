@@ -14,7 +14,9 @@
 #include <algorithm>
 #include "cache/FileToucher.h"
 
-
+/**
+ * class to run a whole problem
+ */
 class Expretiment {
     Matrix mat;
     POINT startPoint;
@@ -38,8 +40,10 @@ public:
 
         for (int k = 0; k < n; ++k) {
             string line;
+            int val ;
             for (int i = 0; i < n; ++i) {
-                line += to_string(rand() % 10);
+                val =rand() % 10 +1;
+                line += to_string(val);
                 line.push_back(',');
             }
             line.pop_back();
@@ -57,6 +61,7 @@ public:
     }
 
     void expirience() {
+        mat.initial();
         SearchNode<int> *startNode = mat.get(startPoint);
         SearchNode<int> *endNode = mat.get(endPoint);
         if (!this->mat.empty() && startNode != nullptr && endNode != nullptr && searcher != nullptr) {
@@ -92,7 +97,7 @@ public:
     }
 
 
-    void writeToFile(string graph, string solutions) {
+    void writeMatToFile(string graph) {
         FileToucher *writer = FileToucher::getInstance();
 
         //graph
@@ -101,10 +106,15 @@ public:
         writer->writeSimple(graph, endPoint.pointToString());
         writer->writeSimple(graph, matRepesentation());
 
+
+
+
+    }
+
+    void writeSolToFile(string sol){
         //solution
-        writer->writeSimple(solutions, solutionFormat());
-
-
+        FileToucher *writer = FileToucher::getInstance();
+        writer->writeSimple(sol, solutionFormat());
     }
 
 

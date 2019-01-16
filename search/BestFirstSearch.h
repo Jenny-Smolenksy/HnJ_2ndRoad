@@ -21,9 +21,7 @@ public:
 
 template<class Type, class SearchType, class Solution>
 class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
-    virtual Solution
-
-    search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
+    virtual Solution search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
         priority_queue < SearchNode<Type> * , vector<SearchNode<Type> *>, Compare<Type>>
         priority_queue1;
@@ -62,7 +60,7 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
         return this->getPathStr(start, endNode);
     }
 
-
+  
 
 
 };

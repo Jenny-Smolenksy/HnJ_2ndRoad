@@ -100,6 +100,12 @@ public:
         this->visited = true;
     }
 
+    void inital(){
+        this->discovered = false;
+        this->visited = false;
+        this->parent= nullptr;
+    }
+
 
 };
 

@@ -18,10 +18,17 @@ using namespace std;
 template<class Type, class SearchType, class Solution>
 class AStar : public Searcher<Type, SearchType, Solution> {
 
+    void updateCount(SearchNode<Type> *current) {
+        if (!current->isDicovered()) {
+            current->setAsDiscovered();
+            this->countDiscovered++;
+        }
+    }
+
     inline int heuristic(SearchNode<Type> *a, SearchNode<Type> *b, ISearchable<Type, SearchType> *searchable) {
         POINT locA = searchable->getlocation(a);
         POINT locB = searchable->getlocation(b);
-        return abs((int) (locA.x -locB.x)) + std::abs(((int) (locA.y -locB.y)));
+        return abs((int) (locA.x - locB.x)) + std::abs(((int) (locA.y - locB.y)));
     }
 
     virtual Solution
@@ -51,7 +58,7 @@ class AStar : public Searcher<Type, SearchType, Solution> {
                 int newCost = cost_so_far[current] + (int) adj->getCost();
                 if (cost_so_far.find(adj) == cost_so_far.end() || newCost < cost_so_far[adj]) {
                     cost_so_far[adj] = newCost;
-                    int priority = newCost + heuristic(adj, endNode,searchable);
+                    int priority = newCost + heuristic(adj, endNode, searchable);
                     frontier.put(adj, priority);
                     adj->parent = current;
                     this->updateCount(adj);

@@ -63,13 +63,13 @@ namespace server_side {
                         string problem = m.problemToString();
                         Solution solution;
                         if (cacheManager->isSolution(problem)) {
-                            //cout << cacheManager->getSolution(problem) << endl;
                             solution = cacheManager->getSolution(problem);
                         } else {
 
                             solution = solver->solve(m);
                             cacheManager->saveSolution(problem, solution);
                         }
+                        delete matrix;
                         std::ostringstream stream;
                         stream << solution;
 
@@ -83,9 +83,7 @@ namespace server_side {
                         size_t len = solutionStr.length();
                         strcpy(response, solutionStr.c_str());
 
-                        delete matrix;
 
-                        //TODO get messege right - not working
                         resultCode = (int) send(socketId, response, len, 0);
 
 
@@ -95,7 +93,7 @@ namespace server_side {
                         }
 
                 } catch (const char *ex) {
-                        delete matrix;
+
                         return;
                     }
             }
@@ -145,7 +143,6 @@ namespace server_side {
                 }
 
             }
-            cout << "got whole request " << endl;
             return request;
 
         }
@@ -156,7 +153,6 @@ namespace server_side {
             point.x = atoi(info[0].data());
             point.y = atoi(info[1].data());
 
-            cout << "point " + data + " inserted" << endl;
             return point;
         }
 
@@ -164,7 +160,7 @@ namespace server_side {
             for (string line:info) {
                 mat->addRow(line);
             }
-            cout << "matrix inserted: " << endl;
+
             return mat;
         }
 
