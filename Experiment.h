@@ -24,6 +24,11 @@ class Expretiment {
     Searcher<int, POINT, string> *searcher;
 
 public:
+    /**
+     * build matrix from a given string
+     * @param mat
+     * @param div
+     */
     void buildMatrix(const string &mat, char div) {
         this->mat.clear();
         for (const string &line:Utils::split(mat, div)) {
@@ -34,6 +39,10 @@ public:
         this->mat.assignFriends();
     }
 
+    /**
+     * generate random Matrix
+     * @param n
+     */
     void generateMatrix(unsigned n) {
 
         string mat;
@@ -56,26 +65,30 @@ public:
 
     }
 
+    /**
+     * add Search Method
+     * @param s
+     */
     void addSearchMethod(Searcher<int, POINT, string> *s) {
         this->searcher = s;
     }
 
+    /**
+     * run
+     */
     void expirience() {
         mat.initial();
         SearchNode<int> *startNode = mat.get(startPoint);
         SearchNode<int> *endNode = mat.get(endPoint);
         if (!this->mat.empty() && startNode != nullptr && endNode != nullptr && searcher != nullptr) {
 
-            cout << "route: " ;
-            cout << searcher->search(&mat, startNode, endNode) << endl;
-
-            cout << "amount of nodes reviled: " << searcher->getDiscovered() << endl;
-            cout << "path cost: " << searcher->getPathCost(startNode, endNode) << endl;
-            //TODO write mat to mat file
-            //TODO write solution;
         }
     }
 
+    /**
+     * arrange matrix format
+     * @return
+     */
     string matRepesentation() {
         string matRep;
         for (char c:mat.search_base_to_string()) {
@@ -88,6 +101,10 @@ public:
         return matRep;
     }
 
+    /**
+     * arrange solution format
+     * @return
+     */
     string solutionFormat() {
         string solution = to_string((int) searcher->getPathCost(mat.get(startPoint), mat.get(endPoint)));
         solution += ",";
@@ -97,6 +114,10 @@ public:
     }
 
 
+    /**
+     * write matrix to graph file
+     * @param graph
+     */
     void writeMatToFile(string graph) {
         FileToucher *writer = FileToucher::getInstance();
 
@@ -111,6 +132,10 @@ public:
 
     }
 
+    /**
+     * write solution format to file
+     * @param sol
+     */
     void writeSolToFile(string sol){
         //solution
         FileToucher *writer = FileToucher::getInstance();

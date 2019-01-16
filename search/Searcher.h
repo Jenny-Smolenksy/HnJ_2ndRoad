@@ -14,13 +14,19 @@ class Searcher : public ISearcher<Type, SearchType, Solution> {
 
 
 protected:
-    int countDiscovered;
+    int countDiscovered{};
 
 public:
 
     virtual Solution search(ISearchable<Type, SearchType> *searchable,
                             SearchNode<Type> *start, SearchNode<Type> *end) = 0;
 
+    /**
+     * get path cost
+     * @param start
+     * @param end
+     * @return
+     */
     virtual double getPathCost(SearchNode<Type> *start, SearchNode<Type> *end) {
 
         double cost = 0;
@@ -39,6 +45,12 @@ public:
         return cost;
     }
 
+    /**
+     * get the path as a string
+     * @param start
+     * @param end
+     * @return
+     */
     virtual string getPathStr(SearchNode<Type> *start, SearchNode<Type> *end) {
 
         string str;
@@ -67,6 +79,12 @@ public:
         return str;
     }
 
+    /**
+     * get the number of nudes involved in the final path
+     * @param start
+     * @param endNode
+     * @return
+     */
     virtual int getPathNodeAmount(SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
         int count = 1;
@@ -83,6 +101,10 @@ public:
         return count;
     }
 
+    /**
+     * update the count of discoverd nodes
+     * @param current
+     */
     void updateCount(SearchNode<Type> *current) {
         if (!current->isDicovered()) {
             current->setAsDiscovered();
@@ -90,9 +112,13 @@ public:
         }
     }
 
+    /**
+     * get all discoved nodes
+     * @return
+     */
     int getDiscovered() {
         return this->countDiscovered;
-    }f
+    }
 
 
 };

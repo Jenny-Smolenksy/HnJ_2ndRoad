@@ -5,8 +5,6 @@
 #include <fstream>
 #include "FileToucher.h"
 #include "../Utils.h"
-
-
 #define DIVIDER '$'
 FileToucher *FileToucher::instance = nullptr;
 
@@ -15,6 +13,10 @@ FileToucher::FileToucher() {
     pthread_mutex_init(&fileAccessMutex, nullptr);
 }
 
+/**
+ * get the file toucher - singelton way
+ * @return
+ */
 FileToucher *FileToucher::getInstance() {
     if (instance == nullptr) {
         instance = new FileToucher();
@@ -22,7 +24,12 @@ FileToucher *FileToucher::getInstance() {
     return instance;
 }
 
-
+/**
+ * get a string by a specific key
+ * @param fileName
+ * @param key
+ * @return
+ */
 string FileToucher::getByKey(string fileName, string key) {
 
     //lock mutual resource
@@ -49,7 +56,12 @@ string FileToucher::getByKey(string fileName, string key) {
     pthread_mutex_unlock(&fileAccessMutex);
     throw "key does not exist in cache! check for existence first";
 }
-
+/**
+ * write problem to specific file
+ * @param fileName
+ * @param SolFormat
+ * @param ProbFormat
+ */
 void FileToucher::writeToFile(string fileName, string SolFormat, string ProbFormat) {
     //lock mutual resource
     pthread_mutex_lock(&fileAccessMutex);
@@ -68,6 +80,12 @@ void FileToucher::writeToFile(string fileName, string SolFormat, string ProbForm
     pthread_mutex_unlock(&fileAccessMutex);
 }
 
+/**
+ * check if two strings are the same
+ * @param key
+ * @param line
+ * @return
+ */
 bool FileToucher::isSame(string key, string line) {
     if (key.length() != line.length()) {
         return false;
@@ -80,6 +98,11 @@ bool FileToucher::isSame(string key, string line) {
     return true;
 }
 
+/**
+ * write to file ,no format
+ * @param file
+ * @param to_write
+ */
 void FileToucher::writeSimple(string file, string to_write) {
 
     //lock mutual resource
@@ -99,6 +122,9 @@ void FileToucher::writeSimple(string file, string to_write) {
     pthread_mutex_unlock(&fileAccessMutex);
 }
 
+/**
+ * distructor
+ */
 FileToucher::~FileToucher() {
     if (instance != nullptr) {
         instance = nullptr;

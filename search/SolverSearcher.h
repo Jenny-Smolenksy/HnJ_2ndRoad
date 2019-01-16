@@ -18,11 +18,21 @@ class SolverSearcher : public Solver<MatrixSearchProblem, std::string> {
 
     ISearcher<Type, POINT, string> *searcher;
 public:
+
+    /**
+     * constructor
+     * @param s
+     */
     SolverSearcher(ISearcher<Type, POINT, string> *s) {
         searcher = s;
     }
 
-    virtual std::string solve(MatrixSearchProblem problem) {
+    /**
+     * solve the problem using the searcher
+     * @param problem
+     * @return
+     */
+    std::string solve(MatrixSearchProblem problem) override {
 
         SearchNode<Type> *startNode = problem.getMatrix()->get(problem.getStartPoint());
         SearchNode<Type> *endNode = problem.getMatrix()->get(problem.getEndPoint());

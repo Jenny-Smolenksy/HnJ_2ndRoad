@@ -12,27 +12,37 @@
 
 using namespace std;
 
-#define ROW 9
-#define COL 10
 
+/**
+ * A star alogirthem
+ * @tparam Type
+ * @tparam SearchType
+ * @tparam Solution
+ */
 template<class Type, class SearchType, class Solution>
 class AStar : public Searcher<Type, SearchType, Solution> {
 
-    void updateCount(SearchNode<Type> *current) {
-        if (!current->isDicovered()) {
-            current->setAsDiscovered();
-            this->countDiscovered++;
-        }
-    }
-
+    /**
+     * the heuristic function
+     * @param a
+     * @param b
+     * @param searchable
+     * @return
+     */
     inline int heuristic(SearchNode<Type> *a, SearchNode<Type> *b, ISearchable<Type, SearchType> *searchable) {
         POINT locA = searchable->getlocation(a);
         POINT locB = searchable->getlocation(b);
-        return abs((int) (locA.x - locB.x)) + std::abs(((int) (locA.y - locB.y)));
+        return abs(locA.x - locB.x) + std::abs(((int) (locA.y - locB.y)));
     }
 
-    virtual Solution
-    search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
+    /***
+     * search
+     * @param searchable
+     * @param start
+     * @param endNode
+     * @return
+     */
+    virtual Solution search(ISearchable<Type, SearchType> *searchable, SearchNode<Type> *start, SearchNode<Type> *endNode) {
 
         map<SearchNode<Type> *, int> cost_so_far;
         this->countDiscovered = 0;
@@ -43,8 +53,8 @@ class AStar : public Searcher<Type, SearchType, Solution> {
         cost_so_far[start] = 0;
 
         SearchNode<Type> *current;
-        bool found = false;
-        while (!frontier.empty() && !found) {
+        /*while there are items to check */
+        while (!frontier.empty()) {
 
             current = frontier.get();
             this->updateCount(current);
@@ -53,10 +63,11 @@ class AStar : public Searcher<Type, SearchType, Solution> {
             }
 
             vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
-
+            /*iterete threw all the neigbours*/
             for (SearchNode<Type> *adj : (*neighbours)) {
                 int newCost = cost_so_far[current] + (int) adj->getCost();
                 if (cost_so_far.find(adj) == cost_so_far.end() || newCost < cost_so_far[adj]) {
+                    //only if u worth it
                     cost_so_far[adj] = newCost;
                     int priority = newCost + heuristic(adj, endNode, searchable);
                     frontier.put(adj, priority);

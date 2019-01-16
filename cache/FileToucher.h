@@ -8,7 +8,9 @@
 #include <string>
 
 using namespace std;
-
+/**
+ * file toucher class - deal with files
+ */
 class FileToucher {
     static FileToucher *instance;
 
