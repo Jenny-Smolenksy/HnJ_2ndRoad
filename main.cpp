@@ -9,17 +9,16 @@
 #include "problem_solve/Solver.h"
 #include "server_side/MySerialServer.h"
 #include "search/SolverSearcher.h"
-#include "server_side/MyParallelServer.h
+#include "server_side/MyParallelServer.h"
 
 using namespace server_side;
 
 
 int main(int arg, char *argv[]) {
-
-    std::cout << "Hi, Hilla - second road good luck to us" << std::endl;
-
     if (arg != 2) {
-        throw "no port recived for opening server";
+
+        cout << "no port recived for opening server" << endl;
+        return 0;
     }
 
     int portNumber = atoi(argv[1]);
@@ -43,6 +42,12 @@ int main(int arg, char *argv[]) {
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
+
+    delete search;
+    delete cacheManager;
+    delete solver;
+    delete clientHandler;
+    delete server;
 
 
     return 0;
