@@ -1,14 +1,15 @@
+
 #include <iostream>
-#include "server_side/MyClientHandler.h"
 #include "Experiment.h"
+#include "search/AStar.h"
+#include "server_side/AServer.h"
+#include "cache/CacheManager.h"
 #include "cache/FileCacheManager.h"
+#include "server_side/MyClientHandler.h"
+#include "problem_solve/Solver.h"
 #include "server_side/MySerialServer.h"
-#include "problem_solve/StringReverser.h"
 #include "search/SolverSearcher.h"
-#include "search/BestFirstSearch.h"
-#include "server_side/MyParallelServer.h"
-#include "server_side/MyTestClientHandler.h"
-#include "search/BFS.h"
+#include "server_side/MyParallelServer.h
 
 using namespace server_side;
 
@@ -22,73 +23,47 @@ int main(int arg, char *argv[]) {
     }
 
     int portNumber = atoi(argv[1]);
-/*
-    Expretiment experiment;
 
-     experiment.buildMatrix("1,2,5$7,3,7$6,9,1", '$');
+    /*   Expretiment experiment;
+       vector<Searcher<int,POINT,string>*> searchers;
+       searchers.push_back(new BestFirstSearch<int, POINT, string>());
+       searchers.push_back(new DFS<int, POINT, string>());
+       searchers.push_back(new BFS<int, POINT, string>());
+       searchers.push_back(new AStar<int, POINT, string>());
+       int x=1;
+       while (x<=10){
+           experiment.generateMatrix(20+x*3);
+           experiment.writeMatToFile("graphs.txt");
+           for(auto search:searchers){
+               experiment.addSearchMethod(search);
+               experiment.expirience();
+               experiment.writeSolToFile("solutions.txt");
+           }
+           x++;
 
-  //  experiment.generateMatrix(10);
-    auto search = new DFS<int, POINT, string>();
-    experiment.addSearchMethod(search);
-    experiment.expirience();
-    experiment.writeToFile("Graph", "Solutions");
+       }*/
+
+
+    auto search = new AStar<int, POINT, string>;
     // delete search;
-*/
+
     CacheManager *cacheManager = new FileCacheManager("Matrix");
-    auto search = new BFS<int, POINT, string>();
-    Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int>(search);
+    Solver <MatrixSearchProblem, string> *solver = new SolverSearcher<int>(search);
 
     ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);
-
-    Solver<string, string> *solverReverse = new StringReverser();
-    ClientHandler* clientHandler1 = new MyTestClientHandler<string, string>(solverReverse, cacheManager);
     Server *server;
+
     try {
 
         server = new MyParallelServer();
         server->open(portNumber, clientHandler);
 
+
     } catch (char const *a) {
         cout << "failed to load server try reload";
     }
 
-/*
 
-    Expretiment experiment1;
-    //  experiment1.buildMatrix("0,1,6,2,8,2,9,4,8,7,5,9,8,0,1,3,6$4,1,0,9,10,0,7,9,0,1,2,8,9,3,10,6,7$1,7,8,9,1,0,1,10,10,0,10,1,0,10,3,7,5$0,7,6,9,10,5,10,6,3,8,0,7,9,7,1,7,1$9,1,3,5,6,0,10,4,1,7,4,6,6,2,8,10,5$2,2,1,1,6,0,6,4,9,5,6,10,7,3,3,10,5$3,0,3,10,1,8,10,4,9,4,9,0,3,1,0,3,8$4,1,4,8,9,1,9,3,7,8,5,0,5,1,4,4,0$-1,3,9,5,5,10,2,3,2,8,10,3,5,8,6,3,2$1,4,8,10,9,6,0,4,0,0,5,2,10,3,6,8,4$0,6,2,7,1,6,4,3,4,7,6,2,7,0,5,10,1$9,3,0,8,8,6,7,8,0,0,1,6,3,6,4,6,9$9,6,3,6,7,3,9,5,10,6,7,1,3,6,9,10,2$7,4,3,5,4,3,6,6,6,7,2,8,4,1,6,8,0$1,2,1,2,5,2,7,0,9,3,3,4,10,2,1,7,9$6,5,0,3,4,10,3,3,0,0,5,8,0,1,9,0,9$3,2,2,3,0,4,9,3,5,3,6,5,8,4,7,6,7$", '$');
-    experiment1.generateMatrix(10);
-    auto search1 = new DFS<int, POINT, string>();
-    experiment1.addSearchMethod(search1);
-    experiment1.expirience();
-*/
-
-
-
-
-    /*
-   while (getline(cin, problem)) {
-       bool c = x->isSolution(problem);
-       if (c) {
-           sol = x->getSolution(problem);
-           std::cout << "exict" << std::endl;
-       } else {
-           StringRevrser solver;
-           sol = solver.solve(problem);
-           x->saveSolution(problem, sol);
-           std::cout << "new" << std::endl;
-       }
-       std::cout << sol << std::endl;
-   }
-    */
-
-
-    delete  cacheManager;
-    delete search;
-    delete solver;
-    delete clientHandler;
-    delete solverReverse;
-    delete clientHandler1;
-    delete server;
     return 0;
 }
 
