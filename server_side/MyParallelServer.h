@@ -10,26 +10,40 @@
 
 namespace server_side {
 
-    struct CLIENT_LISTEN_PARAMS {
-        ClientHandler* clientHandler;
-        int socketId;
-    };
-
     class MyParallelServer : public AServer {
 
         queue<pthread_t > threadIdQueue;
+        int countClientsRunning;
+        pthread_mutex_t clientsCountMutex;
 
     public:
 
-        virtual void listenToClient(int socketId);
+        MyParallelServer() ;
+
+        void listenToClient(int socketId) override;
 
         virtual void parallellListen();
 
-        virtual void open(int port, ClientHandler* clientHandler);
+        void open(int port, ClientHandler* clientHandler) override;
 
-        virtual void stop();
+        void stop() override;
+
+
+        void addClientRunning();
+
+        void removeClientRunning();
+
+        bool getIsClientRunning();
 
         ~MyParallelServer();
+    };
+
+
+
+    struct CLIENT_LISTEN_PARAMS {
+        ClientHandler* clientHandler;
+        int socketId;
+        MyParallelServer* parallelServer;
     };
 }
 
