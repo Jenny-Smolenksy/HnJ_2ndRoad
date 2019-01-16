@@ -83,6 +83,7 @@ void MySerialServer::serialListen() {
 
 void MySerialServer::listenToClient(int socketId) {
     clientHandler->handleClient(socketId);
+    close(socketId);
 }
 
 MySerialServer::~MySerialServer() {

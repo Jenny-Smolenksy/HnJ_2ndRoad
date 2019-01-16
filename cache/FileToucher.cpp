@@ -67,6 +67,11 @@ void FileToucher::writeSimple(string file, string to_write) {
     eFile.close();
 }
 
+FileToucher::~FileToucher() {
+    if (instance != nullptr) {
+        instance = nullptr;
+    }
+}
 
 
 

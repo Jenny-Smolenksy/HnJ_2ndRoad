@@ -29,6 +29,10 @@ public:
 
         return searcher->search(problem.getMatrix(), startNode, endNode);
     }
+
+    ~SolverSearcher() {
+        searcher = nullptr;
+    }
 };
 
 

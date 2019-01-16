@@ -52,19 +52,24 @@ namespace server_side {
                 return; //nothing to listen to
             }
 
+            Matrix* matrix;
             /* If connection is established then start communicating */
             while (true) {
                 try {
-                    Matrix *matrix = new Matrix();
-                    MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
-                    string problem = m.problemToString();
-                    if (cacheManager->isSolution(problem)) {
-                        cout << cacheManager->getSolution(problem) << endl;
-                    } else {
 
-                        Solution solution = solver->solve(m);
-                        cacheManager->saveSolution(problem, solution);
+                        matrix = new Matrix();
+                        MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
 
+                        string problem = m.problemToString();
+                        Solution solution;
+                        if (cacheManager->isSolution(problem)) {
+                            //cout << cacheManager->getSolution(problem) << endl;
+                            solution = cacheManager->getSolution(problem);
+                        } else {
+
+                            solution = solver->solve(m);
+                            cacheManager->saveSolution(problem, solution);
+                        }
                         std::ostringstream stream;
                         stream << solution;
 
@@ -78,24 +83,21 @@ namespace server_side {
                         size_t len = solutionStr.length();
                         strcpy(response, solutionStr.c_str());
 
+                        delete matrix;
 
                         //TODO get messege right - not working
                         resultCode = (int) send(socketId, response, len, 0);
+
 
                         //check message sent
                         if (resultCode < ZERO) {
                             cout << "ERROR writing to socket" << endl;
                         }
-                    }
-                    delete matrix;
-                    //TODO search in cache
-                    //TODO search in solver
-                    //TODO get result to client
-                    //TODO delete mat pointer
 
                 } catch (const char *ex) {
-                    return;
-                }
+                        delete matrix;
+                        return;
+                    }
             }
         }
 

@@ -25,6 +25,8 @@ public:
 
     bool isSame(string key,string line);
 
+    ~FileToucher();
+
 };
 
 

@@ -21,4 +21,6 @@ public:
         FileToucher *writer = FileToucher::getInstance();
         writer->writeToFile(fileName, solution, problem);
     }
+
+    ~FileCacheManager() { }
 };
