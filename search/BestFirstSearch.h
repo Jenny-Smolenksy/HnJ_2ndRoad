@@ -39,7 +39,7 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
             current = priority_queue1.top();
             priority_queue1.pop();
 
-            updateCount(current);
+            this->updateCount(current);
             if (current == endNode) {
                 //found the wanted node
                 break;
@@ -47,7 +47,7 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
             vector<SearchNode<Type> *> *neighbours = searchable->getNeighbours(current);
 
             for (SearchNode<Type> *adj:(*neighbours)) {
-                updateCount(adj);
+                this->updateCount(adj);
                 if (adj->parent == nullptr) {
                     adj->parent = current;
                     priority_queue1.push(adj);
@@ -62,12 +62,7 @@ class BestFirstSearch : public Searcher<Type, SearchType, Solution> {
         return this->getPathStr(start, endNode);
     }
 
-    void updateCount(SearchNode<Type> *current) {
-        if (!current->isDicovered()) {
-            current->setAsDiscovered();
-            this->countDiscovered++;
-        }
-    }
+
 
 
 };

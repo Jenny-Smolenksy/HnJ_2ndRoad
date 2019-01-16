@@ -6,8 +6,8 @@
 #include "problem_solve/StringReverser.h"
 #include "search/SolverSearcher.h"
 #include "search/BestFirstSearch.h"
-#include "server_side/MyParallelServer.h"
-#include "server_side/MyTestClientHandler.h"
+#include "search/AStar.h"
+#include "search/BFS.h"
 
 using namespace server_side;
 
@@ -21,31 +21,28 @@ int main(int arg, char *argv[]) {
     }
 
     int portNumber = atoi(argv[1]);
-/*
+
     Expretiment experiment;
 
-     experiment.buildMatrix("1,2,5$7,3,7$6,9,1", '$');
-
+     experiment.buildMatrix("1,3,3,3,3$2,1,3,3,3$2,2,1,3,3$2,2,2,1,3$2,2,2,2,1", '$');
   //  experiment.generateMatrix(10);
-    auto search = new BestFirstSearch<int, POINT, string>();
+    auto search = new AStar<int, POINT, string>();
     experiment.addSearchMethod(search);
     experiment.expirience();
-    experiment.writeToFile("Graph", "Solutions");
+    experiment.writeToFile("formatg", "Solutions");
     // delete search;
-*/
+
     CacheManager *cacheManager = new FileCacheManager("Matrix");
-    auto search = new DFS<int, POINT, string>();
-    Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int>(search);
+    Solver<MatrixSearchProblem, string> *solver = new SolverSearcher<int >(search);
 
     ClientHandler *clientHandler = new MyClientHandler<MatrixSearchProblem, string>(solver, cacheManager);
-
-    Solver<string, string> *solverReverse = new StringReverser();
-    ClientHandler* clientHandler1 = new MyTestClientHandler<string, string>(solverReverse, cacheManager);
     Server *server;
+
     try {
 
-        server = new MyParallelServer();
+        server = new MySerialServer();
         server->open(portNumber, clientHandler);
+
 
     } catch (char const *a) {
         cout << "failed to load server try reload";
@@ -53,14 +50,6 @@ int main(int arg, char *argv[]) {
 
 
 
-
-    delete  cacheManager;
-    delete search;
-    delete solver;
-    delete clientHandler;
-    delete solverReverse;
-    delete clientHandler1;
-    delete server;
     return 0;
 }
 

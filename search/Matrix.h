@@ -100,7 +100,7 @@ public:
         for (vector<SearchNode<int> *> v: matrix) {
             int x = 0;
             for (SearchNode<int> *node:v) {
-                node-> up = (get(POINT(y - 1, x)));
+                node->up = (get(POINT(y - 1, x)));
                 node->down = (get(POINT(y + 1, x)));
                 node->right = (get(POINT(y, x + 1)));
                 node->left = (get(POINT(y, x - 1)));
@@ -133,8 +133,43 @@ public:
         return matrix.empty();
     }
 
-    int size(){
+    int size() {
         return colNum;
+    }
+
+    virtual POINT getlocation(SearchNode<int> *searchFor) {
+        int i = 0;
+        pair<bool, int> result;
+
+        for (vector<SearchNode<int> *> row:matrix) {
+            result = findInVector(&row, searchFor);
+            if (result.first) {
+                //found the right row, and position in it (col)
+                return POINT(i, result.second);
+            }
+
+        }
+        //not an item
+        return POINT(-1, -1);
+
+    }
+
+    pair<bool, int> findInVector(vector<SearchNode<int> *> *row, SearchNode<int> *searchFor) {
+        pair<bool, int> result;
+        result.first = false;
+        result.second = -1;
+        int j = 0;
+        // Find given element in vector
+        for (SearchNode<int> *node:*row) {
+            if (node == searchFor) {
+                result.first = true;
+                result.second = j;
+                break;
+            }
+            j++;
+
+        }
+        return result;
     }
 
     ~Matrix() {

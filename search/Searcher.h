@@ -7,9 +7,10 @@
 
 #include "ISearcher.h"
 
+#include <iostream>
+
 template<class Type, class SearchType, class Solution>
 class Searcher : public ISearcher<Type, SearchType, Solution> {
-
 
 
 protected:
@@ -42,7 +43,9 @@ public:
 
         string str;
         string str1;
-
+        if (end->parent == NULL) {
+            return "no path";
+        }
         SearchNode<Type> *current = end;
 
 
@@ -53,13 +56,13 @@ public:
 
             str = current->parent->getDicrection(current) + ", " + str;
 
-            str1  = std::to_string(current->getValue()) + " -> " + str1;
+            str1 = std::to_string(current->getValue()) + " -> " + str1;
             current = current->parent;
         }
         if (current != start) {
             return "no path";
         }
-        str1  = std::to_string(current->getValue()) + " -> " + str1;
+        str1 = std::to_string(current->getValue()) + " -> " + str1;
         cout << str1 << endl;
         return str;
     }
@@ -80,7 +83,14 @@ public:
         return count;
     }
 
-    int getDiscovered(){
+    void updateCount(SearchNode<Type> *current) {
+        if (!current->isDicovered()) {
+            current->setAsDiscovered();
+            this->countDiscovered++;
+        }
+    }
+
+    int getDiscovered() {
         return this->countDiscovered;
     }
 

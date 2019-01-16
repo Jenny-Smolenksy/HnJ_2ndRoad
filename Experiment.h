@@ -96,6 +96,7 @@ public:
         FileToucher *writer = FileToucher::getInstance();
 
         //graph
+        writer->writeSimple(graph,to_string(endPoint.x+1));
         writer->writeSimple(graph, startPoint.pointToString());
         writer->writeSimple(graph, endPoint.pointToString());
         writer->writeSimple(graph, matRepesentation());

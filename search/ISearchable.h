@@ -21,6 +21,8 @@ public:
 
     virtual void assignFriends() = 0;
 
+    virtual POINT getlocation(SearchNode<Type> *searchFor)=0;
+
 };
 
 #endif //HNJ_2NDROAD_ISEARCHABLE_H
