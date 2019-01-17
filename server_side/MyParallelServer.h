@@ -27,7 +27,7 @@ namespace server_side {
 
         void stop() override;
 
-        ~MyParallelServer();
+        ~MyParallelServer(){};
 
     };
 

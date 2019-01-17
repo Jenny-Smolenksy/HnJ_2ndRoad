@@ -48,11 +48,11 @@ void MyParallelServer::open(int port, ClientHandler* clientHandler) {
     createSocket(port, DEFAULT_TIME_PER_SEC);
 
     //create thread opening socket
-   // pthread_create(&threadRunningId, nullptr, threadListen, this);
+    // pthread_create(&threadRunningId, nullptr, threadListen, this);
 
-   parallellListen();
+    parallellListen();
     //wait for the thread
-   // pthread_join(threadRunningId, nullptr);
+    // pthread_join(threadRunningId, nullptr);
 }
 /**
  * listen to client on given socket
@@ -66,17 +66,6 @@ void MyParallelServer::listenToClient(int socketId) {
     pthread_t threadId;
     pthread_create(&threadId, nullptr, threadFuncClientListen, params);
     this->threadIdVector.push_back(threadId);
-}
-/**
- * free allocated space
- */
-MyParallelServer::~MyParallelServer() {
-
-    try {
-        stop();
-    } catch (invalid_argument &e) {}
-    catch (const char* c) {}
-    clientHandler = nullptr;
 }
 /**
  * listen parallel to clients
@@ -107,7 +96,7 @@ void MyParallelServer::parallellListen() {
             flag = false;
             stop();
 
-           continue;
+            continue;
         }
 
         //setting timeout
@@ -118,7 +107,7 @@ void MyParallelServer::parallellListen() {
         listenToClient(clientSocket);
     }
 
-    cout << "time out caused server stop listening";
+    cout << "time out caused server stop listening" << endl;
 }
 /**
  * function thread to stop server
@@ -137,13 +126,13 @@ void MyParallelServer::stop() {
 
     pthread_t pthreadIdClose;
 
-  //  pthread_create(&pthreadIdClose, nullptr, threadFuncStop, this);
-  //  pthread_join(pthreadIdClose, nullptr);
+    //  pthread_create(&pthreadIdClose, nullptr, threadFuncStop, this);
+    //  pthread_join(pthreadIdClose, nullptr);
 
-   for(auto thread :this->threadIdVector) {
+    for(auto thread :this->threadIdVector) {
 
-       pthread_join(thread, nullptr);
-   }
+        pthread_join(thread, nullptr);
+    }
 
     threadIdVector.clear();
 

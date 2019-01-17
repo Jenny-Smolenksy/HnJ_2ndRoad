@@ -28,7 +28,7 @@ namespace server_side {
          * @param cacheManagerToSet
          */
         MyClientHandler(Solver<Problem, Solution> *solverToSet,
-                CacheManager *cacheManagerToSet) {
+                        CacheManager *cacheManagerToSet) {
             this->solver = solverToSet;
             this->cacheManager = cacheManagerToSet;
         }
@@ -66,58 +66,58 @@ namespace server_side {
                 return; //nothing to listen to
             }
             Matrix* matrix;
-                try {
+            try {
 
-                    matrix = new Matrix();
-                    //create matrix by given message
-                    MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
+                matrix = new Matrix();
+                //create matrix by given message
+                MatrixSearchProblem m = getSingleSearchRequest(socketId, matrix);
 
-                    string problem = m.problemToString();
-                    Solution solution;
+                string problem = m.problemToString();
+                Solution solution;
 
-                    //check if solution in cache manager
-                    if (cacheManager->isSolution(problem)) {
-                        cout << "found on cache" << endl;
-                        solution = cacheManager->getSolution(problem);
-                    } else {
-                        //solve
-                        solution = solver->solve(m);
-                        cacheManager->saveSolution(problem, solution);
-                    }
-                    //create stream to resend with solution
-                    std::ostringstream stream;
-                    stream << solution;
-                    string solutionStr = stream.str();
+                //check if solution in cache manager
+                if (cacheManager->isSolution(problem)) {
+                    cout << "found on cache" << endl;
+                    solution = cacheManager->getSolution(problem);
+                } else {
+                    //solve
+                    solution = solver->solve(m);
+                    cacheManager->saveSolution(problem, solution);
+                }
+                //create stream to resend with solution
+                std::ostringstream stream;
+                stream << solution;
+                string solutionStr = stream.str();
 
-                    cout << "solution: " << endl;
-                    cout << solutionStr << endl;
-                    int resultCode;
-                    size_t len = solutionStr.length();
-                    strcpy(response, solutionStr.c_str());
+                cout << "solution: " << endl;
+                cout << solutionStr << endl;
+                int resultCode;
+                size_t len = solutionStr.length();
+                strcpy(response, solutionStr.c_str());
 
-                    delete matrix;
+                delete matrix;
 
-                    resultCode = (int) send(socketId, response, len, 0);
-                    //check message sent
-                    if (resultCode < ZERO) {
-                        cout << "ERROR writing to socket" << endl;
-                    }
+                resultCode = (int) send(socketId, response, len, 0);
+                //check message sent
+                if (resultCode < ZERO) {
+                    cout << "ERROR writing to socket" << endl;
+                }
 
-                    close(socketId);
+                close(socketId);
 
-                } catch (const char *ex) {
-                        delete matrix;
-                        cout << ex << endl;
-                        return;
-                    }
+            } catch (const char *ex) {
+                delete matrix;
+                cout << ex << endl;
+                return;
             }
+        }
 
-            /**
-             * one search reest deal
-             * @param socketId
-             * @param matrix
-             * @return
-             */
+        /**
+         * one search reest deal
+         * @param socketId
+         * @param matrix
+         * @return
+         */
         MatrixSearchProblem getSingleSearchRequest(int socketId, Matrix *matrix) {
             //get whole problem
             MatrixSearchProblem problem;

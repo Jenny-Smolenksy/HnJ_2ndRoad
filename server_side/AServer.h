@@ -46,6 +46,8 @@ namespace server_side {
 
         virtual void closeServer();
 
+        virtual ~AServer();
+
     };
 }
 

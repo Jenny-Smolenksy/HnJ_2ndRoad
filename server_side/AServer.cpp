@@ -103,3 +103,5 @@ void AServer::stop() {
     //close socket
     close(sockfd);
 }
+
+AServer::~AServer() {}

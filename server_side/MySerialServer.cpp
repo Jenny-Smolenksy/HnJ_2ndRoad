@@ -15,7 +15,7 @@ void* threadFuncListen(void* arg) {
         params->serialListen();
     } catch (invalid_argument& e) {
         cout << "server disconnected" << endl;
-      //  throw "server disconnected";
+        //  throw "server disconnected";
     } catch (const char* ex) {
         cout << ex;
     }
@@ -72,7 +72,7 @@ void MySerialServer::serialListen() {
 
         //set timeout for client
         setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO,
-                (char *)&timeOutMessage, sizeof(timeOutMessage));
+                   (char *)&timeOutMessage, sizeof(timeOutMessage));
         listenToClient(clientSocket);
 
         cout << "client disconnected" << endl;

@@ -72,26 +72,26 @@ namespace server_side {
         virtual void handleMessage(char *inputStream, char **outputStream) {
             //if problem not string convert it here
             string prob = inputStream;
-              if (!prob.empty() && prob[prob.length() - 1] == '\n') {
-                  prob.erase(prob.length() - 1);
-              }
-              Problem problem = inputStream;
-              Solution result;
-              //check on cache
-              if (this->cacheManager->isSolution(prob)) {
-                  result = this->cacheManager->getSolution(prob);
-                  cout << "found on cache";
-              } else {
-                  //solve
-                  result = this->solver->solve(prob);
-                  this->cacheManager->saveSolution(prob, result);
-                  cout << "solver job";
-              }
+            if (!prob.empty() && prob[prob.length() - 1] == '\n') {
+                prob.erase(prob.length() - 1);
+            }
+            Problem problem = inputStream;
+            Solution result;
+            //check on cache
+            if (this->cacheManager->isSolution(prob)) {
+                result = this->cacheManager->getSolution(prob);
+                cout << "found on cache";
+            } else {
+                //solve
+                result = this->solver->solve(prob);
+                this->cacheManager->saveSolution(prob, result);
+                cout << "solver job";
+            }
 
-              //get solution
-              string s = result;
-              //if solution not string convert it here to string
-              strcpy(*outputStream, s.c_str());
+            //get solution
+            string s = result;
+            //if solution not string convert it here to string
+            strcpy(*outputStream, s.c_str());
 
         }
 
